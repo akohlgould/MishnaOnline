@@ -1,13 +1,15 @@
 {
   "isRunning": true,
-  "currentTractate": "Bikkurim",
-  "currentChapter": 4,
-  "totalChaptersInTractate": 4,
-  "currentMishnah": 1,
-  "totalMishnayotInChapter": 1,
-  "statusText": "Aligning Bikkurim Chapter 4/4 [Turbo Mode]",
-  "chaptersCompleted": 95,
+  "currentTractate": "Kilayim",
+  "currentChapter": 3,
+  "totalChaptersInTractate": 9,
+  "currentMishnah": 6,
+  "totalMishnayotInChapter": 7,
+  "statusText": "Aligning Kilayim 3:6 (68 words)",
+  "chaptersCompleted": 110,
   "totalChapters": 525,
-  "percent": 18.1,
-  "lastUpdated": 1794345650964
+  "mishnayotCompleted": 935,
+  "wordsAligned": 35669,
+  "percent": 21.0,
+  "lastUpdated": 1794345866495
 }
