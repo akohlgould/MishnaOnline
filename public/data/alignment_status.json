@@ -1,13 +1,13 @@
 {
   "isRunning": true,
-  "currentTractate": "Chagigah",
-  "currentChapter": 3,
-  "totalChaptersInTractate": 3,
+  "currentTractate": "Yevamot",
+  "currentChapter": 16,
+  "totalChaptersInTractate": 16,
   "currentMishnah": 1,
   "totalMishnayotInChapter": 1,
-  "statusText": "Aligning Chagigah Chapter 3/3 [Turbo Mode]",
-  "chaptersCompleted": 173,
+  "statusText": "Aligning Yevamot Chapter 16/16 [Turbo Mode]",
+  "chaptersCompleted": 189,
   "totalChapters": 525,
-  "percent": 33.0,
-  "lastUpdated": 1794348098879
+  "percent": 36.0,
+  "lastUpdated": 1794348532515
 }
