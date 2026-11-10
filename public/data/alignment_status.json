@@ -1,15 +1,13 @@
 {
   "isRunning": true,
-  "currentTractate": "Kilayim",
-  "currentChapter": 3,
-  "totalChaptersInTractate": 9,
-  "currentMishnah": 6,
-  "totalMishnayotInChapter": 7,
-  "statusText": "Aligning Kilayim 3:6 (68 words)",
-  "chaptersCompleted": 110,
+  "currentTractate": "Shabbat",
+  "currentChapter": 24,
+  "totalChaptersInTractate": 24,
+  "currentMishnah": 1,
+  "totalMishnayotInChapter": 1,
+  "statusText": "Aligning Shabbat Chapter 24/24 [Turbo Mode]",
+  "chaptersCompleted": 119,
   "totalChapters": 525,
-  "mishnayotCompleted": 935,
-  "wordsAligned": 35669,
-  "percent": 21.0,
-  "lastUpdated": 1794346268496
+  "percent": 22.7,
+  "lastUpdated": 1794346378840
 }
