@@ -1,13 +1,13 @@
 {
   "isRunning": true,
-  "currentTractate": "Eruvin",
-  "currentChapter": 10,
-  "totalChaptersInTractate": 10,
+  "currentTractate": "Shekalim",
+  "currentChapter": 8,
+  "totalChaptersInTractate": 8,
   "currentMishnah": 1,
   "totalMishnayotInChapter": 1,
-  "statusText": "Aligning Eruvin Chapter 10/10 [Turbo Mode]",
-  "chaptersCompleted": 129,
+  "statusText": "Aligning Shekalim Chapter 8/8 [Turbo Mode]",
+  "chaptersCompleted": 137,
   "totalChapters": 525,
-  "percent": 24.6,
-  "lastUpdated": 1794346748031
+  "percent": 26.1,
+  "lastUpdated": 1794347007188
 }
