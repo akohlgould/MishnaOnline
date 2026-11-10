@@ -1,13 +1,13 @@
 {
   "isRunning": true,
-  "currentTractate": "Beitzah",
-  "currentChapter": 5,
-  "totalChaptersInTractate": 5,
+  "currentTractate": "Rosh_Hashanah",
+  "currentChapter": 4,
+  "totalChaptersInTractate": 4,
   "currentMishnah": 1,
   "totalMishnayotInChapter": 1,
-  "statusText": "Aligning Beitzah Chapter 5/5 [Turbo Mode]",
-  "chaptersCompleted": 155,
+  "statusText": "Aligning Rosh_Hashanah Chapter 4/4 [Turbo Mode]",
+  "chaptersCompleted": 159,
   "totalChapters": 525,
-  "percent": 29.5,
-  "lastUpdated": 1794347531074
+  "percent": 30.3,
+  "lastUpdated": 1794347697286
 }
