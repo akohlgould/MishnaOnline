@@ -1,15 +1,13 @@
 {
   "isRunning": true,
-  "currentTractate": "Kilayim",
-  "currentChapter": 3,
-  "totalChaptersInTractate": 9,
-  "currentMishnah": 6,
-  "totalMishnayotInChapter": 7,
-  "statusText": "Aligning Kilayim 3:6 (68 words)",
-  "chaptersCompleted": 81,
+  "currentTractate": "Maaser_Sheni",
+  "currentChapter": 5,
+  "totalChaptersInTractate": 5,
+  "currentMishnah": 1,
+  "totalMishnayotInChapter": 1,
+  "statusText": "Aligning Maaser_Sheni Chapter 5/5 [Turbo Mode]",
+  "chaptersCompleted": 84,
   "totalChapters": 525,
-  "mishnayotCompleted": 693,
-  "wordsAligned": 27007,
-  "percent": 15.4,
-  "lastUpdated": 1794345465384
+  "percent": 16.0,
+  "lastUpdated": 1794345510618
 }
