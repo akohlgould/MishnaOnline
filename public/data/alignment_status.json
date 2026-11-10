@@ -1,13 +1,13 @@
 {
   "isRunning": true,
-  "currentTractate": "Ketubot",
-  "currentChapter": 13,
-  "totalChaptersInTractate": 13,
+  "currentTractate": "Nedarim",
+  "currentChapter": 11,
+  "totalChaptersInTractate": 11,
   "currentMishnah": 1,
   "totalMishnayotInChapter": 1,
-  "statusText": "Aligning Ketubot Chapter 13/13 [Turbo Mode]",
-  "chaptersCompleted": 202,
+  "statusText": "Aligning Nedarim Chapter 11/11 [Turbo Mode]",
+  "chaptersCompleted": 213,
   "totalChapters": 525,
-  "percent": 38.5,
-  "lastUpdated": 1794349904848
+  "percent": 40.6,
+  "lastUpdated": 1794351718489
 }
