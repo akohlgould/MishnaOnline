@@ -1,13 +1,13 @@
 {
   "isRunning": true,
-  "currentTractate": "Orlah",
-  "currentChapter": 3,
-  "totalChaptersInTractate": 3,
+  "currentTractate": "Bikkurim",
+  "currentChapter": 4,
+  "totalChaptersInTractate": 4,
   "currentMishnah": 1,
   "totalMishnayotInChapter": 1,
-  "statusText": "Aligning Orlah Chapter 3/3 [Turbo Mode]",
-  "chaptersCompleted": 91,
+  "statusText": "Aligning Bikkurim Chapter 4/4 [Turbo Mode]",
+  "chaptersCompleted": 95,
   "totalChapters": 525,
-  "percent": 17.3,
-  "lastUpdated": 1794345590957
+  "percent": 18.1,
+  "lastUpdated": 1794345650964
 }
