@@ -1,13 +1,13 @@
 {
   "isRunning": true,
-  "currentTractate": "Shekalim",
+  "currentTractate": "Yoma",
   "currentChapter": 8,
   "totalChaptersInTractate": 8,
   "currentMishnah": 1,
   "totalMishnayotInChapter": 1,
-  "statusText": "Aligning Shekalim Chapter 8/8 [Turbo Mode]",
-  "chaptersCompleted": 137,
+  "statusText": "Aligning Yoma Chapter 8/8 [Turbo Mode]",
+  "chaptersCompleted": 145,
   "totalChapters": 525,
-  "percent": 26.1,
-  "lastUpdated": 1794347007188
+  "percent": 27.6,
+  "lastUpdated": 1794347233641
 }
