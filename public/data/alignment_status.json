@@ -1,13 +1,13 @@
 {
   "isRunning": true,
-  "currentTractate": "Shabbat",
-  "currentChapter": 24,
-  "totalChaptersInTractate": 24,
+  "currentTractate": "Eruvin",
+  "currentChapter": 10,
+  "totalChaptersInTractate": 10,
   "currentMishnah": 1,
   "totalMishnayotInChapter": 1,
-  "statusText": "Aligning Shabbat Chapter 24/24 [Turbo Mode]",
-  "chaptersCompleted": 119,
+  "statusText": "Aligning Eruvin Chapter 10/10 [Turbo Mode]",
+  "chaptersCompleted": 129,
   "totalChapters": 525,
-  "percent": 22.7,
-  "lastUpdated": 1794346378840
+  "percent": 24.6,
+  "lastUpdated": 1794346748031
 }
