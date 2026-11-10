@@ -143,8 +143,8 @@ export function App() {
     theme === 'dark'
       ? 'bg-[#181a1b] text-stone-100'
       : theme === 'sepia'
-      ? 'bg-[#f5efe3] text-[#2c221a]'
-      : 'bg-[#fbfbf9] text-stone-900';
+        ? 'bg-[#f5efe3] text-[#2c221a]'
+        : 'bg-[#fbfbf9] text-stone-900';
 
   return (
     <div className={`min-h-screen ${themeContainerClass} flex flex-col font-sans transition-colors duration-150`}>
