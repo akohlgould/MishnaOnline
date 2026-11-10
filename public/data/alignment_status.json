@@ -1,13 +1,13 @@
 {
   "isRunning": true,
-  "currentTractate": "Rosh_Hashanah",
+  "currentTractate": "Ta'anit",
   "currentChapter": 4,
   "totalChaptersInTractate": 4,
   "currentMishnah": 1,
   "totalMishnayotInChapter": 1,
-  "statusText": "Aligning Rosh_Hashanah Chapter 4/4 [Turbo Mode]",
-  "chaptersCompleted": 159,
+  "statusText": "Aligning Ta'anit Chapter 4/4 [Turbo Mode]",
+  "chaptersCompleted": 163,
   "totalChapters": 525,
-  "percent": 30.3,
-  "lastUpdated": 1794347697286
+  "percent": 31.0,
+  "lastUpdated": 1794347877130
 }
