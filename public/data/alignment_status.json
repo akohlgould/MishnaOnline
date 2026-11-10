@@ -1,13 +1,13 @@
 {
   "isRunning": true,
-  "currentTractate": "Nazir",
+  "currentTractate": "Sotah",
   "currentChapter": 9,
   "totalChaptersInTractate": 9,
   "currentMishnah": 1,
   "totalMishnayotInChapter": 1,
-  "statusText": "Aligning Nazir Chapter 9/9 [Turbo Mode]",
-  "chaptersCompleted": 222,
+  "statusText": "Aligning Sotah Chapter 9/9 [Turbo Mode]",
+  "chaptersCompleted": 231,
   "totalChapters": 525,
-  "percent": 42.3,
-  "lastUpdated": 1794351926844
+  "percent": 44.0,
+  "lastUpdated": 1794352280071
 }
