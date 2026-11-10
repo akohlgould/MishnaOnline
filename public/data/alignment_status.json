@@ -1,13 +1,13 @@
 {
   "isRunning": true,
-  "currentTractate": "Megillah",
-  "currentChapter": 4,
-  "totalChaptersInTractate": 4,
+  "currentTractate": "Moed_Katan",
+  "currentChapter": 3,
+  "totalChaptersInTractate": 3,
   "currentMishnah": 1,
   "totalMishnayotInChapter": 1,
-  "statusText": "Aligning Megillah Chapter 4/4 [Turbo Mode]",
-  "chaptersCompleted": 167,
+  "statusText": "Aligning Moed_Katan Chapter 3/3 [Turbo Mode]",
+  "chaptersCompleted": 170,
   "totalChapters": 525,
-  "percent": 31.8,
-  "lastUpdated": 1794347966935
+  "percent": 32.4,
+  "lastUpdated": 1794348049274
 }
