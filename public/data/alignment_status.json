@@ -1,13 +1,13 @@
 {
   "isRunning": true,
-  "currentTractate": "Sukkah",
+  "currentTractate": "Beitzah",
   "currentChapter": 5,
   "totalChaptersInTractate": 5,
   "currentMishnah": 1,
   "totalMishnayotInChapter": 1,
-  "statusText": "Aligning Sukkah Chapter 5/5 [Turbo Mode]",
-  "chaptersCompleted": 150,
+  "statusText": "Aligning Beitzah Chapter 5/5 [Turbo Mode]",
+  "chaptersCompleted": 155,
   "totalChapters": 525,
-  "percent": 28.6,
-  "lastUpdated": 1794347384577
+  "percent": 29.5,
+  "lastUpdated": 1794347531074
 }
