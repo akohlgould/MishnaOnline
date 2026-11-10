@@ -1,13 +1,13 @@
 {
   "isRunning": true,
-  "currentTractate": "Yoma",
-  "currentChapter": 8,
-  "totalChaptersInTractate": 8,
+  "currentTractate": "Sukkah",
+  "currentChapter": 5,
+  "totalChaptersInTractate": 5,
   "currentMishnah": 1,
   "totalMishnayotInChapter": 1,
-  "statusText": "Aligning Yoma Chapter 8/8 [Turbo Mode]",
-  "chaptersCompleted": 145,
+  "statusText": "Aligning Sukkah Chapter 5/5 [Turbo Mode]",
+  "chaptersCompleted": 150,
   "totalChapters": 525,
-  "percent": 27.6,
-  "lastUpdated": 1794347233641
+  "percent": 28.6,
+  "lastUpdated": 1794347384577
 }
