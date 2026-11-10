@@ -1,13 +1,13 @@
 {
   "isRunning": true,
-  "currentTractate": "Moed_Katan",
+  "currentTractate": "Chagigah",
   "currentChapter": 3,
   "totalChaptersInTractate": 3,
   "currentMishnah": 1,
   "totalMishnayotInChapter": 1,
-  "statusText": "Aligning Moed_Katan Chapter 3/3 [Turbo Mode]",
-  "chaptersCompleted": 170,
+  "statusText": "Aligning Chagigah Chapter 3/3 [Turbo Mode]",
+  "chaptersCompleted": 173,
   "totalChapters": 525,
-  "percent": 32.4,
-  "lastUpdated": 1794348049274
+  "percent": 33.0,
+  "lastUpdated": 1794348098879
 }
