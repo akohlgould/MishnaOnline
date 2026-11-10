@@ -1,13 +1,13 @@
 {
   "isRunning": true,
-  "currentTractate": "Nedarim",
-  "currentChapter": 11,
-  "totalChaptersInTractate": 11,
+  "currentTractate": "Nazir",
+  "currentChapter": 9,
+  "totalChaptersInTractate": 9,
   "currentMishnah": 1,
   "totalMishnayotInChapter": 1,
-  "statusText": "Aligning Nedarim Chapter 11/11 [Turbo Mode]",
-  "chaptersCompleted": 213,
+  "statusText": "Aligning Nazir Chapter 9/9 [Turbo Mode]",
+  "chaptersCompleted": 222,
   "totalChapters": 525,
-  "percent": 40.6,
-  "lastUpdated": 1794351718489
+  "percent": 42.3,
+  "lastUpdated": 1794351926844
 }
