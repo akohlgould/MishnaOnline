@@ -1,13 +1,13 @@
 {
   "isRunning": true,
-  "currentTractate": "Ta'anit",
+  "currentTractate": "Megillah",
   "currentChapter": 4,
   "totalChaptersInTractate": 4,
   "currentMishnah": 1,
   "totalMishnayotInChapter": 1,
-  "statusText": "Aligning Ta'anit Chapter 4/4 [Turbo Mode]",
-  "chaptersCompleted": 163,
+  "statusText": "Aligning Megillah Chapter 4/4 [Turbo Mode]",
+  "chaptersCompleted": 167,
   "totalChapters": 525,
-  "percent": 31.0,
-  "lastUpdated": 1794347877130
+  "percent": 31.8,
+  "lastUpdated": 1794347966935
 }
