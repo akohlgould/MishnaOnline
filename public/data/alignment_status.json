@@ -1,13 +1,13 @@
 {
   "isRunning": true,
-  "currentTractate": "Yevamot",
-  "currentChapter": 16,
-  "totalChaptersInTractate": 16,
+  "currentTractate": "Ketubot",
+  "currentChapter": 13,
+  "totalChaptersInTractate": 13,
   "currentMishnah": 1,
   "totalMishnayotInChapter": 1,
-  "statusText": "Aligning Yevamot Chapter 16/16 [Turbo Mode]",
-  "chaptersCompleted": 189,
+  "statusText": "Aligning Ketubot Chapter 13/13 [Turbo Mode]",
+  "chaptersCompleted": 202,
   "totalChapters": 525,
-  "percent": 36.0,
-  "lastUpdated": 1794348532515
+  "percent": 38.5,
+  "lastUpdated": 1794349904848
 }
