@@ -12,7 +12,7 @@ try {
     const keysToRemove: string[] = [];
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i);
-      if (k && k.startsWith('mishna_') && !k.startsWith('mishna_v3_')) {
+      if (k && k.startsWith('mishna_') && !k.startsWith('mishna_v4_')) {
         keysToRemove.push(k);
       }
     }
@@ -172,26 +172,14 @@ export class SefariaService {
    */
   static async fetchChapter(tractateSlug: string, chapter: number): Promise<ChapterData> {
     const cacheKey = `${tractateSlug}_${chapter}`;
-    const storageKey = `mishna_v3_${cacheKey}`;
+    const storageKey = `mishna_v4_${cacheKey}`;
 
     // 1. Check in-memory cache
     if (CHAPTER_CACHE.has(cacheKey)) {
       return CHAPTER_CACHE.get(cacheKey)!;
     }
 
-    // 2. Check localStorage cache
-    try {
-      const stored = localStorage.getItem(storageKey);
-      if (stored) {
-        const parsed = JSON.parse(stored) as ChapterData;
-        CHAPTER_CACHE.set(cacheKey, parsed);
-        return parsed;
-      }
-    } catch {
-      // Ignore localStorage errors
-    }
-
-    // 2.5 Check static pre-aligned AI datasets in /data/tractates/{slug}.json
+    // 2. Check static pre-aligned AI datasets FIRST in /data/tractates/{slug}.json
     try {
       const cleanSlug = tractateSlug.toLowerCase().replace(/^mishnah_/, 'mishnah_');
       const staticUrl = `/data/tractates/${cleanSlug}.json`;
@@ -208,10 +196,22 @@ export class SefariaService {
         }
       }
     } catch {
-      // Fallback to live Sefaria fetch
+      // Fallback to cache or live Sefaria fetch
     }
 
-    // 3. Fetch from Sefaria API
+    // 3. Check localStorage cache
+    try {
+      const stored = localStorage.getItem(storageKey);
+      if (stored) {
+        const parsed = JSON.parse(stored) as ChapterData;
+        CHAPTER_CACHE.set(cacheKey, parsed);
+        return parsed;
+      }
+    } catch {
+      // Ignore localStorage errors
+    }
+
+    // 4. Fetch from Sefaria API
     const tractate = this.getTractate(tractateSlug);
     const url = `https://www.sefaria.org/api/texts/${tractateSlug}.${chapter}?context=0`;
 
