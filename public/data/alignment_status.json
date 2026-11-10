@@ -1,13 +1,13 @@
 {
   "isRunning": true,
-  "currentTractate": "Challah",
-  "currentChapter": 4,
-  "totalChaptersInTractate": 4,
+  "currentTractate": "Orlah",
+  "currentChapter": 3,
+  "totalChaptersInTractate": 3,
   "currentMishnah": 1,
   "totalMishnayotInChapter": 1,
-  "statusText": "Aligning Challah Chapter 4/4 [Turbo Mode]",
-  "chaptersCompleted": 88,
+  "statusText": "Aligning Orlah Chapter 3/3 [Turbo Mode]",
+  "chaptersCompleted": 91,
   "totalChapters": 525,
-  "percent": 16.8,
-  "lastUpdated": 1794345556355
+  "percent": 17.3,
+  "lastUpdated": 1794345590957
 }
