@@ -7,6 +7,7 @@ import { MishnahReader } from './components/MishnahReader';
 import { WordInspector } from './components/WordInspector';
 import { ChapterBar } from './components/ChapterBar';
 import { BrandLogo } from './components/BrandLogo';
+import { AlignmentProgressBar } from './components/AlignmentProgressBar';
 import { Loader2 } from 'lucide-react';
 import { toHebrewNumeral } from './utils/hebrewNumerals';
 
@@ -279,6 +280,8 @@ export function App() {
           </div>
         </div>
       </footer>
+      {/* Floating AI Alignment Live Progress Widget */}
+      <AlignmentProgressBar />
     </div>
   );
 }

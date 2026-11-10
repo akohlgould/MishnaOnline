@@ -1,0 +1,15 @@
+{
+  "isRunning": true,
+  "currentTractate": "Kilayim",
+  "currentChapter": 3,
+  "totalChaptersInTractate": 9,
+  "currentMishnah": 6,
+  "totalMishnayotInChapter": 7,
+  "statusText": "Aligning Kilayim 3:6 (68 words)",
+  "chaptersCompleted": 76,
+  "totalChapters": 525,
+  "mishnayotCompleted": 652,
+  "wordsAligned": 25500,
+  "percent": 14.5,
+  "lastUpdated": 1794345392532
+}
