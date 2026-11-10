@@ -1,0 +1,1325 @@
+[
+  {
+    "id": "seder-zeraim",
+    "name": "Zeraim",
+    "heName": "זרעים",
+    "tractates": [
+      {
+        "title": "Mishnah Berakhot",
+        "slug": "Mishnah_Berakhot",
+        "shortTitle": "Berakhot",
+        "heTitle": "משנה ברכות",
+        "heShortTitle": "ברכות",
+        "enDesc": "Blessings and prayers, focusing on Shema and the Amidah.",
+        "heDesc": "ברכות ותפילות, בדגש על קריאת שמע ועל תפילת העמידה.",
+        "chaptersCount": 9,
+        "mishnahCounts": [
+          5,
+          8,
+          6,
+          7,
+          5,
+          8,
+          5,
+          8,
+          5
+        ]
+      },
+      {
+        "title": "Mishnah Peah",
+        "slug": "Mishnah_Peah",
+        "shortTitle": "Peah",
+        "heTitle": "משנה פאה",
+        "heShortTitle": "פאה",
+        "enDesc": "Crops left in the corner of a field for the poor to take, other agricultural gifts to the poor.",
+        "heDesc": "הקצאת חלק מתבואת השדה לעניים ומתנות אחרות מגידולי הקרקע הניתנות לעניים.",
+        "chaptersCount": 8,
+        "mishnahCounts": [
+          6,
+          8,
+          8,
+          11,
+          8,
+          11,
+          8,
+          9
+        ]
+      },
+      {
+        "title": "Mishnah Demai",
+        "slug": "Mishnah_Demai",
+        "shortTitle": "Demai",
+        "heTitle": "משנה דמאי",
+        "heShortTitle": "דמאי",
+        "enDesc": "Produce from one who is suspected to have neglected tithing and the requirement to tithe it.",
+        "heDesc": "החובה להפריש מעשרות מתבואה או פירות שנלקחו מאדם החשוד שלא הפרישם.",
+        "chaptersCount": 7,
+        "mishnahCounts": [
+          4,
+          5,
+          6,
+          7,
+          11,
+          12,
+          8
+        ]
+      },
+      {
+        "title": "Mishnah Kilayim",
+        "slug": "Mishnah_Kilayim",
+        "shortTitle": "Kilayim",
+        "heTitle": "משנה כלאים",
+        "heShortTitle": "כלאים",
+        "enDesc": "Prohibited mixtures of certain seeds, plants, animals, or materials of clothing.",
+        "heDesc": "האיסור להכליא זה בזה זרעים, צמחים או בעלי חיים מסוימים ולערב צמר ופשתן בבגד אחד.",
+        "chaptersCount": 9,
+        "mishnahCounts": [
+          9,
+          11,
+          7,
+          9,
+          8,
+          9,
+          8,
+          6,
+          10
+        ]
+      },
+      {
+        "title": "Mishnah Sheviit",
+        "slug": "Mishnah_Sheviit",
+        "shortTitle": "Sheviit",
+        "heTitle": "משנה שביעית",
+        "heShortTitle": "שביעית",
+        "enDesc": "The seventh year of the agricultural cycle, when working the land is prohibited and debts are forgiven.",
+        "heDesc": "דיני שנת השמיטה, השנה השביעית במחזור החקלאי, שבה אסור לעבוד את האדמה וכן החובות בטלים.",
+        "chaptersCount": 10,
+        "mishnahCounts": [
+          8,
+          10,
+          10,
+          10,
+          9,
+          6,
+          7,
+          11,
+          9,
+          9
+        ]
+      },
+      {
+        "title": "Mishnah Terumot",
+        "slug": "Mishnah_Terumot",
+        "shortTitle": "Terumot",
+        "heTitle": "משנה תרומות",
+        "heShortTitle": "תרומות",
+        "enDesc": "Required donations of agricultural produce to priestly households and its sacred status.",
+        "heDesc": "תרומות שיש להפריש לכהנים מגידולי הקרקע והחובה לשמור על טהרת התרומה.",
+        "chaptersCount": 11,
+        "mishnahCounts": [
+          10,
+          6,
+          9,
+          13,
+          9,
+          6,
+          7,
+          12,
+          7,
+          12,
+          10
+        ]
+      },
+      {
+        "title": "Mishnah Maasrot",
+        "slug": "Mishnah_Maasrot",
+        "shortTitle": "Maasrot",
+        "heTitle": "משנה מעשרות",
+        "heShortTitle": "מעשרות",
+        "enDesc": "Separating tithes for priests, Levites, the poor, and for consumption in Jerusalem.",
+        "heDesc": "הפרשת מעשרות מגידולי הקרקע לכהנים, ללווים ולעניים וכן לשם אכילתם בטהרה בירושלים.",
+        "chaptersCount": 5,
+        "mishnahCounts": [
+          8,
+          8,
+          10,
+          6,
+          8
+        ]
+      },
+      {
+        "title": "Mishnah Maaser Sheni",
+        "slug": "Mishnah_Maaser_Sheni",
+        "shortTitle": "Maaser Sheni",
+        "heTitle": "משנה מעשר שני",
+        "heShortTitle": "מעשר שני",
+        "enDesc": "A tithe eaten in Jerusalem or exchanged for money to be used for purchasing food there.",
+        "heDesc": "מעשר שבעל התבואה אוכל בטהרה בירושלים או פודה בכסף, ובכסף קונה אוכל - ואוכל אותו בטהרה בירושלים.",
+        "chaptersCount": 5,
+        "mishnahCounts": [
+          7,
+          10,
+          13,
+          12,
+          15
+        ]
+      },
+      {
+        "title": "Mishnah Challah",
+        "slug": "Mishnah_Challah",
+        "shortTitle": "Challah",
+        "heTitle": "משנה חלה",
+        "heShortTitle": "חלה",
+        "enDesc": "Dough separated when baking bread and given to priests.",
+        "heDesc": "המצווה להפריש חלק מהבצק בעת הכנת לחם ולתת אותו לכהנים.",
+        "chaptersCount": 4,
+        "mishnahCounts": [
+          9,
+          8,
+          10,
+          11
+        ]
+      },
+      {
+        "title": "Mishnah Orlah",
+        "slug": "Mishnah_Orlah",
+        "shortTitle": "Orlah",
+        "heTitle": "משנה ערלה",
+        "heShortTitle": "ערלה",
+        "enDesc": "Fruit growing on a tree in its first three years, when benefitting from the fruit is prohibited.",
+        "heDesc": "האיסור לאכול וליהנות מפירות העץ בשלוש השנים הראשונות לנטיעתו ודיני תערובות של מאכלים אסורים ומותרים לאכילה.",
+        "chaptersCount": 3,
+        "mishnahCounts": [
+          9,
+          17,
+          9
+        ]
+      },
+      {
+        "title": "Mishnah Bikkurim",
+        "slug": "Mishnah_Bikkurim",
+        "shortTitle": "Bikkurim",
+        "heTitle": "משנה ביכורים",
+        "heShortTitle": "ביכורים",
+        "enDesc": "First fruits and grains ceremoniously brought to the Temple and given to a priest next to the altar.",
+        "heDesc": "טקס הבאת ביכורי פירות ותבואה משבעת המינים לבית המקדש ונתינתם לכהן ליד המזבח.",
+        "chaptersCount": 4,
+        "mishnahCounts": [
+          11,
+          11,
+          12,
+          5
+        ]
+      }
+    ]
+  },
+  {
+    "id": "seder-moed",
+    "name": "Moed",
+    "heName": "מועד",
+    "tractates": [
+      {
+        "title": "Mishnah Shabbat",
+        "slug": "Mishnah_Shabbat",
+        "shortTitle": "Shabbat",
+        "heTitle": "משנה שבת",
+        "heShortTitle": "שבת",
+        "enDesc": "Creative work prohibited on Shabbat and other laws that preserve the sanctity of the day.",
+        "heDesc": "מלאכות האסורות בשבת ודינים הקשורים לקדושת היום.",
+        "chaptersCount": 24,
+        "mishnahCounts": [
+          11,
+          7,
+          6,
+          2,
+          4,
+          10,
+          4,
+          7,
+          7,
+          6,
+          6,
+          6,
+          7,
+          4,
+          3,
+          8,
+          8,
+          3,
+          6,
+          5,
+          3,
+          6,
+          5,
+          5
+        ]
+      },
+      {
+        "title": "Mishnah Eruvin",
+        "slug": "Mishnah_Eruvin",
+        "shortTitle": "Eruvin",
+        "heTitle": "משנה עירובין",
+        "heShortTitle": "עירובין",
+        "enDesc": "Enclosures that legally expand the areas in which one can carry and travel on Shabbat.",
+        "heDesc": "תיחום המרחיב באופן סמלי את התחומים שמותר ללכת ולשאת בהם חפצים בשבת.",
+        "chaptersCount": 10,
+        "mishnahCounts": [
+          10,
+          6,
+          9,
+          11,
+          9,
+          10,
+          11,
+          11,
+          4,
+          15
+        ]
+      },
+      {
+        "title": "Mishnah Pesachim",
+        "slug": "Mishnah_Pesachim",
+        "shortTitle": "Pesachim",
+        "heTitle": "משנה פסחים",
+        "heShortTitle": "פסחים",
+        "enDesc": "Passover: ridding of chametz, the Paschal lamb offering, matzah, maror, and the Seder.",
+        "heDesc": "דינים הקשורים לחג הפסח: איסור חמץ, קורבן הפסח, מצה, מרור וליל הסדר.",
+        "chaptersCount": 10,
+        "mishnahCounts": [
+          7,
+          8,
+          8,
+          9,
+          10,
+          6,
+          13,
+          8,
+          11,
+          9
+        ]
+      },
+      {
+        "title": "Mishnah Shekalim",
+        "slug": "Mishnah_Shekalim",
+        "shortTitle": "Shekalim",
+        "heTitle": "משנה שקלים",
+        "heShortTitle": "שקלים",
+        "enDesc": "Annual half-shekel donations to the Temple, administration and inventory of the Temple.",
+        "heDesc": "תרומה של מחצית השקל הניתנת לבית המקדש בכל שנה וענייני ניהולו ותפעולו של בית המקדש.",
+        "chaptersCount": 8,
+        "mishnahCounts": [
+          7,
+          5,
+          4,
+          9,
+          6,
+          6,
+          7,
+          8
+        ]
+      },
+      {
+        "title": "Mishnah Yoma",
+        "slug": "Mishnah_Yoma",
+        "shortTitle": "Yoma",
+        "heTitle": "משנה יומא",
+        "heShortTitle": "יומא",
+        "enDesc": "Yom Kippur: the High Priest’s preparation, the Temple service, the fast, and repentance.",
+        "heDesc": "יום הכיפורים: הכנות הכהן הגדול, העבודה בבית המקדש, הצום והתשובה.",
+        "chaptersCount": 8,
+        "mishnahCounts": [
+          8,
+          7,
+          11,
+          6,
+          7,
+          8,
+          5,
+          9
+        ]
+      },
+      {
+        "title": "Mishnah Sukkah",
+        "slug": "Mishnah_Sukkah",
+        "shortTitle": "Sukkah",
+        "heTitle": "משנה סוכה",
+        "heShortTitle": "סוכה",
+        "enDesc": "The structure of and obligation to dwell in the sukkah, the four species, and celebrating the holiday in the Temple.",
+        "heDesc": "מבנה הסוכה, החובה לשבת בסוכה, ארבעת המינים ושמחת החג בבית המקדש.",
+        "chaptersCount": 5,
+        "mishnahCounts": [
+          11,
+          9,
+          15,
+          10,
+          8
+        ]
+      },
+      {
+        "title": "Mishnah Beitzah",
+        "slug": "Mishnah_Beitzah",
+        "shortTitle": "Beitzah",
+        "heTitle": "משנה ביצה",
+        "heShortTitle": "ביצה",
+        "enDesc": "Holiday laws governing which objects can be used, how food is prepared, and what labor is permitted.",
+        "heDesc": "דיני יום טוב: חפצים האסורים בשימוש, הכנת אוכל בחג לצורך החג והמלאכות האסורות.",
+        "chaptersCount": 5,
+        "mishnahCounts": [
+          10,
+          10,
+          8,
+          7,
+          7
+        ]
+      },
+      {
+        "title": "Mishnah Rosh Hashanah",
+        "slug": "Mishnah_Rosh_Hashanah",
+        "shortTitle": "Rosh Hashanah",
+        "heTitle": "משנה ראש השנה",
+        "heShortTitle": "ראש השנה",
+        "enDesc": "The declaration process for a new month in the Temple period, blowing the shofar, and Rosh Hashanah liturgy.",
+        "heDesc": "ההכרזה על ראש חודש בתקופת בית המקדש, תקיעת שופר ותפילות ראש השנה.",
+        "chaptersCount": 4,
+        "mishnahCounts": [
+          9,
+          9,
+          8,
+          9
+        ]
+      },
+      {
+        "title": "Mishnah Ta'anit",
+        "slug": "Mishnah_Ta'anit",
+        "shortTitle": "Ta'anit",
+        "heTitle": "משנה תענית",
+        "heShortTitle": "תענית",
+        "enDesc": "Praying for rain, fasting in times of drought, and annual fast days marking Jerusalem’s destruction.",
+        "heDesc": "תפילה על הגשם, צום בימי בצורת והצומות שנקבעו לזכר חורבן ירושלים.",
+        "chaptersCount": 4,
+        "mishnahCounts": [
+          7,
+          10,
+          9,
+          8
+        ]
+      },
+      {
+        "title": "Mishnah Megillah",
+        "slug": "Mishnah_Megillah",
+        "shortTitle": "Megillah",
+        "heTitle": "משנה מגילה",
+        "heShortTitle": "מגילה",
+        "enDesc": "Reading the scroll of Esther on Purim, synagogue rituals, and treatment of sacred objects.",
+        "heDesc": "קריאת מגילת אסתר בפורים, קריאת התורה וההפטרות בבית הכנסת ודיני קדושת בית הכנסת ותשמישי קדושה.",
+        "chaptersCount": 4,
+        "mishnahCounts": [
+          11,
+          6,
+          6,
+          10
+        ]
+      },
+      {
+        "title": "Mishnah Moed Katan",
+        "slug": "Mishnah_Moed_Katan",
+        "shortTitle": "Moed Katan",
+        "heTitle": "משנה מועד קטן",
+        "heShortTitle": "מועד קטן",
+        "enDesc": "Chol HaMoed (the intermediate days of Passover and Sukkot).",
+        "heDesc": "דיני חול המועד (הימים בסוכות ובפסח שאינם ימים טובים).",
+        "chaptersCount": 3,
+        "mishnahCounts": [
+          10,
+          5,
+          9
+        ]
+      },
+      {
+        "title": "Mishnah Chagigah",
+        "slug": "Mishnah_Chagigah",
+        "shortTitle": "Chagigah",
+        "heTitle": "משנה חגיגה",
+        "heShortTitle": "חגיגה",
+        "enDesc": "Sacrifices offered on pilgrimage to Jerusalem for the Festivals and laws of ritual purity.",
+        "heDesc": "קורבנות המוקרבים בעת העלייה לרגל לירושלים בשלושת הרגלים (פסח, שבועות וסוכות) ודיני טהרה.",
+        "chaptersCount": 3,
+        "mishnahCounts": [
+          8,
+          7,
+          8
+        ]
+      }
+    ]
+  },
+  {
+    "id": "seder-nashim",
+    "name": "Nashim",
+    "heName": "נשים",
+    "tractates": [
+      {
+        "title": "Mishnah Yevamot",
+        "slug": "Mishnah_Yevamot",
+        "shortTitle": "Yevamot",
+        "heTitle": "משנה יבמות",
+        "heShortTitle": "יבמות",
+        "enDesc": "The mandated marriage of a widow to the brother of her childless husband and the alternative rite discharging that obligation.",
+        "heDesc": "ייבום, חליצה ואיסורי עריות.",
+        "chaptersCount": 16,
+        "mishnahCounts": [
+          4,
+          10,
+          10,
+          13,
+          6,
+          6,
+          6,
+          6,
+          6,
+          9,
+          7,
+          6,
+          13,
+          9,
+          10,
+          7
+        ]
+      },
+      {
+        "title": "Mishnah Ketubot",
+        "slug": "Mishnah_Ketubot",
+        "shortTitle": "Ketubot",
+        "heTitle": "משנה כתובות",
+        "heShortTitle": "כתובות",
+        "enDesc": "The marital contract (Ketubah) and obligations between husband and wife.",
+        "heDesc": "שטר הכתובה, חובות הבעל לאשתו וחובות האישה לבעלה.",
+        "chaptersCount": 13,
+        "mishnahCounts": [
+          10,
+          10,
+          9,
+          12,
+          9,
+          7,
+          10,
+          8,
+          9,
+          6,
+          6,
+          4,
+          11
+        ]
+      },
+      {
+        "title": "Mishnah Nedarim",
+        "slug": "Mishnah_Nedarim",
+        "shortTitle": "Nedarim",
+        "heTitle": "משנה נדרים",
+        "heShortTitle": "נדרים",
+        "enDesc": "Vows taken voluntarily, particularly those that forbid specific actions or objects.",
+        "heDesc": "נדרים שאדם נודר מרצונו, לרוב נדרים האוסרים על הנודר מעשים או חפצים מסוימים.",
+        "chaptersCount": 11,
+        "mishnahCounts": [
+          4,
+          5,
+          11,
+          8,
+          6,
+          10,
+          9,
+          7,
+          10,
+          8,
+          12
+        ]
+      },
+      {
+        "title": "Mishnah Nazir",
+        "slug": "Mishnah_Nazir",
+        "shortTitle": "Nazir",
+        "heTitle": "משנה נזיר",
+        "heShortTitle": "נזיר",
+        "enDesc": "The Nazarite, or one who vows abstinence from wine, haircuts, and ritual impurity generated from contact with corpses.",
+        "heDesc": "הנזיר: אדם שנודר להימנע מיין, מתספורת ומהיטמאות למת לפרק זמן מוגדר.",
+        "chaptersCount": 9,
+        "mishnahCounts": [
+          7,
+          10,
+          7,
+          7,
+          7,
+          11,
+          4,
+          2,
+          5
+        ]
+      },
+      {
+        "title": "Mishnah Sotah",
+        "slug": "Mishnah_Sotah",
+        "shortTitle": "Sotah",
+        "heTitle": "משנה סוטה",
+        "heShortTitle": "סוטה",
+        "enDesc": "A woman suspected of adultery, the ritual determining her culpability, and other rituals involving recitation.",
+        "heDesc": "אישה החשודה בבגידה בבעלה, טקס בירור מעמדה וטקסים אחרים הכרוכים באמירה.",
+        "chaptersCount": 9,
+        "mishnahCounts": [
+          9,
+          6,
+          8,
+          5,
+          5,
+          4,
+          8,
+          7,
+          15
+        ]
+      },
+      {
+        "title": "Mishnah Gittin",
+        "slug": "Mishnah_Gittin",
+        "shortTitle": "Gittin",
+        "heTitle": "משנה גיטין",
+        "heShortTitle": "גיטין",
+        "enDesc": "Laws relating to divorce, focusing on the get (bill of divorce) and its delivery.",
+        "heDesc": "דיני גירושין, בדגש על כתיבת שטר הגט ונתינתו.",
+        "chaptersCount": 9,
+        "mishnahCounts": [
+          6,
+          7,
+          8,
+          9,
+          9,
+          7,
+          9,
+          10,
+          10
+        ]
+      },
+      {
+        "title": "Mishnah Kiddushin",
+        "slug": "Mishnah_Kiddushin",
+        "shortTitle": "Kiddushin",
+        "heTitle": "משנה קידושין",
+        "heShortTitle": "קידושין",
+        "enDesc": "Betrothal, marriage, acquisitions, and lineage.",
+        "heDesc": "קידושין, נישואין, דיני קניין וענייני יוחסין.",
+        "chaptersCount": 4,
+        "mishnahCounts": [
+          10,
+          10,
+          13,
+          14
+        ]
+      }
+    ]
+  },
+  {
+    "id": "seder-nezikin",
+    "name": "Nezikin",
+    "heName": "נזיקין",
+    "tractates": [
+      {
+        "title": "Mishnah Bava Kamma",
+        "slug": "Mishnah_Bava_Kamma",
+        "shortTitle": "Bava Kamma",
+        "heTitle": "משנה בבא קמא",
+        "heShortTitle": "בבא קמא",
+        "enDesc": "Liability and compensation for damages inflicted on people or property.",
+        "heDesc": "אחריות לנזקי אדם או רכוש והפיצויים עליהם.",
+        "chaptersCount": 10,
+        "mishnahCounts": [
+          4,
+          6,
+          11,
+          9,
+          7,
+          6,
+          7,
+          7,
+          12,
+          10
+        ]
+      },
+      {
+        "title": "Mishnah Bava Metzia",
+        "slug": "Mishnah_Bava_Metzia",
+        "shortTitle": "Bava Metzia",
+        "heTitle": "משנה בבא מציעא",
+        "heShortTitle": "בבא מציעא",
+        "enDesc": "Disputed property, returning lost objects, guarding, renting, borrowing, and responsibilities of workers and employers.",
+        "heDesc": "רכוש שיש עליו מחלוקת, השבת אבדה, דיני שמירה, שכירה ושאילה וחובותיהם של מעסיקים ושל עובדים.",
+        "chaptersCount": 10,
+        "mishnahCounts": [
+          8,
+          11,
+          12,
+          12,
+          11,
+          8,
+          11,
+          9,
+          13,
+          6
+        ]
+      },
+      {
+        "title": "Mishnah Bava Batra",
+        "slug": "Mishnah_Bava_Batra",
+        "shortTitle": "Bava Batra",
+        "heTitle": "משנה בבא בתרא",
+        "heShortTitle": "בבא בתרא",
+        "enDesc": "Relationships between neighbors, land ownership, sales, and inheritance.",
+        "heDesc": "יחסים בין שכנים, בעלות על קרקע, מכירת קרקעות ודיני ירושה.",
+        "chaptersCount": 10,
+        "mishnahCounts": [
+          6,
+          14,
+          8,
+          9,
+          11,
+          8,
+          4,
+          8,
+          10,
+          8
+        ]
+      },
+      {
+        "title": "Mishnah Sanhedrin",
+        "slug": "Mishnah_Sanhedrin",
+        "shortTitle": "Sanhedrin",
+        "heTitle": "משנה סנהדרין",
+        "heShortTitle": "סנהדרין",
+        "enDesc": "The judicial system, forming the court, accepting testimony, and executing capital punishment.",
+        "heDesc": "מערכת המשפט, הקמת בית הדין, קבלת עדות וביצוע גזר דין מוות.",
+        "chaptersCount": 11,
+        "mishnahCounts": [
+          6,
+          5,
+          8,
+          5,
+          5,
+          6,
+          11,
+          7,
+          6,
+          6,
+          6
+        ]
+      },
+      {
+        "title": "Mishnah Makkot",
+        "slug": "Mishnah_Makkot",
+        "shortTitle": "Makkot",
+        "heTitle": "משנה מכות",
+        "heShortTitle": "מכות",
+        "enDesc": "Court-administered lashing, false witnesses, and cities of refuge for inadvertent murderers.",
+        "heDesc": "עדים זוממים, ערי מקלט לרוצחים בשגגה ועונש מלקות.",
+        "chaptersCount": 3,
+        "mishnahCounts": [
+          10,
+          8,
+          16
+        ]
+      },
+      {
+        "title": "Mishnah Shevuot",
+        "slug": "Mishnah_Shevuot",
+        "shortTitle": "Shevuot",
+        "heTitle": "משנה שבועות",
+        "heShortTitle": "שבועות",
+        "enDesc": "Oaths and the process of atoning for entering the Temple or eating from a sacrifice while impure.",
+        "heDesc": "דיני הנכנס לבית המקדש או אוכל בשר קורבן בהיותו טמא, דיני שבועות.",
+        "chaptersCount": 8,
+        "mishnahCounts": [
+          7,
+          5,
+          11,
+          13,
+          5,
+          7,
+          8,
+          6
+        ]
+      },
+      {
+        "title": "Mishnah Eduyot",
+        "slug": "Mishnah_Eduyot",
+        "shortTitle": "Eduyot",
+        "heTitle": "משנה עדיות",
+        "heShortTitle": "עדיות",
+        "enDesc": "The only tractate without a unified subject, organized as collections of laws on various topics.",
+        "heDesc": "המסכת היחידה שאין לה נושא מרכזי אחד אלא מובאות בה הלכות במגוון עניינים.",
+        "chaptersCount": 8,
+        "mishnahCounts": [
+          14,
+          10,
+          12,
+          12,
+          7,
+          3,
+          9,
+          7
+        ]
+      },
+      {
+        "title": "Mishnah Avodah Zarah",
+        "slug": "Mishnah_Avodah_Zarah",
+        "shortTitle": "Avodah Zarah",
+        "heTitle": "משנה עבודה זרה",
+        "heShortTitle": "עבודה זרה",
+        "enDesc": "Disassociating from idolatry, regulations on business interactions between Jews and idolaters.",
+        "heDesc": "התרחקות מעבודת אלילים וכללים המסדירים את הקשר בין יהודים ועובדי אלילים.",
+        "chaptersCount": 5,
+        "mishnahCounts": [
+          9,
+          7,
+          10,
+          12,
+          12
+        ]
+      },
+      {
+        "title": "Pirkei Avot",
+        "slug": "Pirkei_Avot",
+        "shortTitle": "Pirkei Avot",
+        "heTitle": "משנה אבות",
+        "heShortTitle": "אבות",
+        "enDesc": "Short statements of advice, ethics, and wisdom.",
+        "heDesc": "מימרות קצרות המשיאות עצה בענייני מוסר, מידות טובות ודרך ארץ.",
+        "chaptersCount": 6,
+        "mishnahCounts": [
+          18,
+          16,
+          18,
+          22,
+          23,
+          11
+        ]
+      },
+      {
+        "title": "Mishnah Horayot",
+        "slug": "Mishnah_Horayot",
+        "shortTitle": "Horayot",
+        "heTitle": "משנה הוריות",
+        "heShortTitle": "הוריות",
+        "enDesc": "Atoning for erroneous rulings of the court and inadvertent sins of leaders.",
+        "heDesc": "כפרה על פסיקות שגויות שהורו בבית הדין ועל חטאים בשגגה של כהנים גדולים ומלכים.",
+        "chaptersCount": 3,
+        "mishnahCounts": [
+          5,
+          7,
+          8
+        ]
+      }
+    ]
+  },
+  {
+    "id": "seder-kodashim",
+    "name": "Kodashim",
+    "heName": "קדשים",
+    "tractates": [
+      {
+        "title": "Mishnah Zevachim",
+        "slug": "Mishnah_Zevachim",
+        "shortTitle": "Zevachim",
+        "heTitle": "משנה זבחים",
+        "heShortTitle": "זבחים",
+        "enDesc": "Animal and bird sacrifices in the Temple.",
+        "heDesc": "קורבנות בהמה ועוף ודינים הנוגעים לבית המקדש.",
+        "chaptersCount": 14,
+        "mishnahCounts": [
+          4,
+          5,
+          6,
+          6,
+          8,
+          7,
+          6,
+          12,
+          7,
+          8,
+          8,
+          6,
+          8,
+          10
+        ]
+      },
+      {
+        "title": "Mishnah Menachot",
+        "slug": "Mishnah_Menachot",
+        "shortTitle": "Menachot",
+        "heTitle": "משנה מנחות",
+        "heShortTitle": "מנחות",
+        "enDesc": "Flour offerings, usually mixed with oil, wine libations, and bread loaf offerings in the Temple.",
+        "heDesc": "מנחות עשויות קמח, לחם הפנים ונסכי יין ושמן.",
+        "chaptersCount": 13,
+        "mishnahCounts": [
+          4,
+          5,
+          7,
+          5,
+          9,
+          7,
+          6,
+          7,
+          9,
+          9,
+          9,
+          5,
+          11
+        ]
+      },
+      {
+        "title": "Mishnah Chullin",
+        "slug": "Mishnah_Chullin",
+        "shortTitle": "Chullin",
+        "heTitle": "משנה חולין",
+        "heShortTitle": "חולין",
+        "enDesc": "Slaughter of animals and birds for non-consecrated purposes, other aspects of kashrut.",
+        "heDesc": "שחיטת חיות ועופות שלא לשם קורבן וענייני כשרות נוספים.",
+        "chaptersCount": 12,
+        "mishnahCounts": [
+          7,
+          10,
+          7,
+          7,
+          5,
+          7,
+          6,
+          6,
+          8,
+          4,
+          2,
+          5
+        ]
+      },
+      {
+        "title": "Mishnah Bekhorot",
+        "slug": "Mishnah_Bekhorot",
+        "shortTitle": "Bekhorot",
+        "heTitle": "משנה בכורות",
+        "heShortTitle": "בכורות",
+        "enDesc": "Transfer of first-born kosher animals to a priest, redemption of first-born donkeys and people.",
+        "heDesc": "נתינת בכורות של בהמות טהורות לכהן, פדיון הוולד הבכור של החמור, פדיון בכור האדם ומעשר בהמה.",
+        "chaptersCount": 9,
+        "mishnahCounts": [
+          7,
+          9,
+          4,
+          10,
+          6,
+          12,
+          7,
+          10,
+          8
+        ]
+      },
+      {
+        "title": "Mishnah Arakhin",
+        "slug": "Mishnah_Arakhin",
+        "shortTitle": "Arakhin",
+        "heTitle": "משנה ערכין",
+        "heShortTitle": "ערכין",
+        "enDesc": "Vowing to donate a person’s prescribed value delineated in the Torah to the Temple, donations of land to the Temple.",
+        "heDesc": "נדר לתרום לבית המקדש ממון בשווי ערכו של אדם לפי המפורט בתורה, תרומות קרקע לבית המקדש.",
+        "chaptersCount": 9,
+        "mishnahCounts": [
+          4,
+          6,
+          5,
+          4,
+          6,
+          5,
+          5,
+          7,
+          8
+        ]
+      },
+      {
+        "title": "Mishnah Temurah",
+        "slug": "Mishnah_Temurah",
+        "shortTitle": "Temurah",
+        "heTitle": "משנה תמורה",
+        "heShortTitle": "תמורה",
+        "enDesc": "The sanctity of animals dedicated for sacrifice and the prohibition of exchanging them for others.",
+        "heDesc": "קדושת הבהמות שיועדו לקורבן והאיסור להחליפן באחרות.",
+        "chaptersCount": 7,
+        "mishnahCounts": [
+          6,
+          3,
+          5,
+          4,
+          6,
+          5,
+          6
+        ]
+      },
+      {
+        "title": "Mishnah Keritot",
+        "slug": "Mishnah_Keritot",
+        "shortTitle": "Keritot",
+        "heTitle": "משנה כריתות",
+        "heShortTitle": "כריתות",
+        "enDesc": "Karet, divinely-issued severance from the Jewish people, and sacrifices for unintentional sin.",
+        "heDesc": "עונש כרת וקורבנות על חטאים שנעשו בשגגה.",
+        "chaptersCount": 6,
+        "mishnahCounts": [
+          7,
+          6,
+          10,
+          3,
+          8,
+          9
+        ]
+      },
+      {
+        "title": "Mishnah Meilah",
+        "slug": "Mishnah_Meilah",
+        "shortTitle": "Meilah",
+        "heTitle": "משנה מעילה",
+        "heShortTitle": "מעילה",
+        "enDesc": "Prohibited benefit from Temple property, the sacrifice and restitution offered as atonement.",
+        "heDesc": "הנאה אסורה מחפץ, מבהמה או מכסף השייכים לבית המקדש.",
+        "chaptersCount": 6,
+        "mishnahCounts": [
+          4,
+          9,
+          8,
+          6,
+          5,
+          6
+        ]
+      },
+      {
+        "title": "Mishnah Tamid",
+        "slug": "Mishnah_Tamid",
+        "shortTitle": "Tamid",
+        "heTitle": "משנה תמיד",
+        "heShortTitle": "תמיד",
+        "enDesc": "The daily Temple service, including the burnt-offerings brought every morning and afternoon.",
+        "heDesc": "העבודה הנעשית במקדש בכל יום הכוללת את קורבן התמיד המוקרב בבוקר ובין הערביים.",
+        "chaptersCount": 7,
+        "mishnahCounts": [
+          4,
+          5,
+          9,
+          3,
+          6,
+          3,
+          4
+        ]
+      },
+      {
+        "title": "Mishnah Middot",
+        "slug": "Mishnah_Middot",
+        "shortTitle": "Middot",
+        "heTitle": "משנה מדות",
+        "heShortTitle": "מדות",
+        "enDesc": "Measurements and descriptions of the Second Temple and the Temple Mount.",
+        "heDesc": "מידותיהם ותיאורם של בית המקדש השני ושל הר הבית.",
+        "chaptersCount": 5,
+        "mishnahCounts": [
+          9,
+          6,
+          8,
+          7,
+          4
+        ]
+      },
+      {
+        "title": "Mishnah Kinnim",
+        "slug": "Mishnah_Kinnim",
+        "shortTitle": "Kinnim",
+        "heTitle": "משנה קינים",
+        "heShortTitle": "קינים",
+        "enDesc": "Bird-offerings that are mixed up and the complex math involved in determining their status.",
+        "heDesc": "עופות שנועדו לקורבן והתערבו זה בזה והחישובים המורכבים שיש לחשב כדי לקבוע את מעמדם.",
+        "chaptersCount": 3,
+        "mishnahCounts": [
+          4,
+          5,
+          6
+        ]
+      }
+    ]
+  },
+  {
+    "id": "seder-tahorot",
+    "name": "Tahorot",
+    "heName": "טהרות",
+    "tractates": [
+      {
+        "title": "Mishnah Kelim",
+        "slug": "Mishnah_Kelim",
+        "shortTitle": "Kelim",
+        "heTitle": "משנה כלים",
+        "heShortTitle": "כלים",
+        "enDesc": "Vessels - tools, utensils, appliances, furniture, and clothing - and their statuses in purity laws.",
+        "heDesc": "דיני הטומאה והטהרה של כלים ממגוון סוגים: כלי עבודה, כלי אוכל, כלי בישול, רהיטים ובגדים.",
+        "chaptersCount": 30,
+        "mishnahCounts": [
+          9,
+          8,
+          8,
+          4,
+          11,
+          4,
+          6,
+          11,
+          8,
+          8,
+          9,
+          8,
+          8,
+          8,
+          6,
+          8,
+          17,
+          9,
+          10,
+          7,
+          3,
+          10,
+          5,
+          17,
+          9,
+          9,
+          12,
+          10,
+          8,
+          4
+        ]
+      },
+      {
+        "title": "Mishnah Oholot",
+        "slug": "Mishnah_Oholot",
+        "shortTitle": "Oholot",
+        "heTitle": "משנה אהלות",
+        "heShortTitle": "אהלות",
+        "enDesc": "The spread of a corpse’s impurity through contact, carrying, or dwelling under the same roof.",
+        "heDesc": "היטמאות בטומאת המת במגע, בנשיאה או בשהייה תחת אותה קורת גג.",
+        "chaptersCount": 18,
+        "mishnahCounts": [
+          8,
+          7,
+          7,
+          3,
+          7,
+          7,
+          6,
+          6,
+          16,
+          7,
+          9,
+          8,
+          6,
+          7,
+          10,
+          5,
+          5,
+          10
+        ]
+      },
+      {
+        "title": "Mishnah Negaim",
+        "slug": "Mishnah_Negaim",
+        "shortTitle": "Negaim",
+        "heTitle": "משנה נגעים",
+        "heShortTitle": "נגעים",
+        "enDesc": "Tzaraat, a discoloration condition on skin, houses, or clothing, purification for the infected.",
+        "heDesc": "דיני נגע הצרעת המופיע על עור האדם, בקירות הבית או בבגדים ודרכי ההיטהרות מן הנגע.",
+        "chaptersCount": 14,
+        "mishnahCounts": [
+          6,
+          5,
+          8,
+          11,
+          5,
+          8,
+          5,
+          10,
+          3,
+          10,
+          12,
+          7,
+          12,
+          13
+        ]
+      },
+      {
+        "title": "Mishnah Parah",
+        "slug": "Mishnah_Parah",
+        "shortTitle": "Parah",
+        "heTitle": "משנה פרה",
+        "heShortTitle": "פרה",
+        "enDesc": "Burning of a red heifer and mixing of its ashes with spring water to be used for purification.",
+        "heDesc": "שרפת פרה אדומה וערבוב אפרה במי מעיין לצורכי טהרה.",
+        "chaptersCount": 12,
+        "mishnahCounts": [
+          4,
+          5,
+          11,
+          4,
+          9,
+          5,
+          12,
+          11,
+          9,
+          6,
+          9,
+          11
+        ]
+      },
+      {
+        "title": "Mishnah Tahorot",
+        "slug": "Mishnah_Tahorot",
+        "shortTitle": "Tahorot",
+        "heTitle": "משנה טהרות",
+        "heShortTitle": "טהרות",
+        "enDesc": "How food, drinks, objects and people become impure and spread impurity.",
+        "heDesc": "הדרכים שבהן מיני מאכל ומשקה, כלים ואנשים נהיים טמאים ומטמאים אחרים.",
+        "chaptersCount": 10,
+        "mishnahCounts": [
+          9,
+          8,
+          8,
+          13,
+          9,
+          10,
+          9,
+          9,
+          9,
+          8
+        ]
+      },
+      {
+        "title": "Mishnah Mikvaot",
+        "slug": "Mishnah_Mikvaot",
+        "shortTitle": "Mikvaot",
+        "heTitle": "משנה מקואות",
+        "heShortTitle": "מקואות",
+        "enDesc": "Ritual baths and the process of immersing in them to become pure.",
+        "heDesc": "דיני מקוואות והטבילה בהם לשם טהרה.",
+        "chaptersCount": 10,
+        "mishnahCounts": [
+          8,
+          10,
+          4,
+          5,
+          6,
+          11,
+          7,
+          5,
+          7,
+          8
+        ]
+      },
+      {
+        "title": "Mishnah Niddah",
+        "slug": "Mishnah_Niddah",
+        "shortTitle": "Niddah",
+        "heTitle": "משנה נדה",
+        "heShortTitle": "נדה",
+        "enDesc": "The ritual impurity of a woman in her menstrual cycle or experiencing particular discharges.",
+        "heDesc": "טומאת האישה בנידתה ובמצבים נוספים.",
+        "chaptersCount": 10,
+        "mishnahCounts": [
+          7,
+          7,
+          7,
+          7,
+          9,
+          14,
+          5,
+          4,
+          11,
+          8
+        ]
+      },
+      {
+        "title": "Mishnah Makhshirin",
+        "slug": "Mishnah_Makhshirin",
+        "shortTitle": "Makhshirin",
+        "heTitle": "משנה מכשירין",
+        "heShortTitle": "מכשירין",
+        "enDesc": "Water, oil, milk, wine, honey, dew, or blood touching food and rendering it susceptible to impurity.",
+        "heDesc": "התנאים שבהם מים, שמן, חלב, יין, דבש, טל או דם נוגעים במזון ומכשירים אותו לקבל טומאה.",
+        "chaptersCount": 6,
+        "mishnahCounts": [
+          6,
+          11,
+          8,
+          10,
+          11,
+          8
+        ]
+      },
+      {
+        "title": "Mishnah Zavim",
+        "slug": "Mishnah_Zavim",
+        "shortTitle": "Zavim",
+        "heTitle": "משנה זבים",
+        "heShortTitle": "זבים",
+        "enDesc": "Abnormal bodily discharges and the impurity they generate.",
+        "heDesc": "הפרשות בלתי רגילות מהגוף והטומאה הנגרמת מהן.",
+        "chaptersCount": 5,
+        "mishnahCounts": [
+          6,
+          4,
+          3,
+          7,
+          12
+        ]
+      },
+      {
+        "title": "Mishnah Tevul Yom",
+        "slug": "Mishnah_Tevul_Yom",
+        "shortTitle": "Tevul Yom",
+        "heTitle": "משנה טבול יום",
+        "heShortTitle": "טבול יום",
+        "enDesc": "The status of a person in the time between their immersion in a mikvah and sunset of that day.",
+        "heDesc": "דינו של אדם טמא שטבל במקווה לטהרתו ועדיין לא שקעה השמש.",
+        "chaptersCount": 4,
+        "mishnahCounts": [
+          5,
+          8,
+          6,
+          7
+        ]
+      },
+      {
+        "title": "Mishnah Yadayim",
+        "slug": "Mishnah_Yadayim",
+        "shortTitle": "Yadayim",
+        "heTitle": "משנה ידים",
+        "heShortTitle": "ידים",
+        "enDesc": "Rabbinic decree to wash hands before eating due to assumed impurity of the hands.",
+        "heDesc": "גזרת חכמים ליטול ידיים לפני האכילה בשל ההנחה שהידיים טמאות.",
+        "chaptersCount": 4,
+        "mishnahCounts": [
+          5,
+          4,
+          5,
+          8
+        ]
+      },
+      {
+        "title": "Mishnah Oktzin",
+        "slug": "Mishnah_Oktzin",
+        "shortTitle": "Oktzin",
+        "heTitle": "משנה עוקצים",
+        "heShortTitle": "עוקצים",
+        "enDesc": "Stems and other attachments to food, their susceptibility to impurity.",
+        "heDesc": "מעמדם בדיני טומאה וטהרה של עוקצי פירות וחלקים טפלים המחוברים למזון.",
+        "chaptersCount": 3,
+        "mishnahCounts": [
+          6,
+          10,
+          12
+        ]
+      }
+    ]
+  }
+]

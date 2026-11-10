@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-feature-settings: "rlig" 1, "calt" 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: #e5e7eb;
+    color: #111827;
+  }
+}
+
+/* Sepia Mode */
+.sepia-mode {
+  background-color: #f5efe3 !important;
+  color: #2c221a !important;
+}
+
+.sepia-mode header,
+.sepia-mode aside,
+.sepia-mode article,
+.sepia-mode .bg-white {
+  background-color: #faf5ec !important;
+  border-color: #e6dcce !important;
+}
+
+/* Minimalist, functional animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.15s ease-out forwards;
+}
+
+.animate-slideLeft {
+  animation: fadeIn 0.15s ease-out forwards;
+}
+
