@@ -1,4 +1,4 @@
-import { WordData, MishnahData, WordGrammar } from '../types';
+import { WordData, MishnahData } from '../types';
 import { MISHNA_LEXICON, COMMON_MISHNA_ROOTS } from '../data/lexiconData';
 
 export function stripNikkud(text: string): string {
@@ -25,26 +25,17 @@ export function separatePunctuation(token: string): { word: string; punct: strin
   return { word, punct };
 }
 
-// Convert number to Hebrew letter numeral (1 -> א׳, 2 -> ב׳, etc.)
-export function toHebrewNumeral(n: number): string {
-  const letters: Record<number, string> = {
-    1: 'א׳', 2: 'ב׳', 3: 'ג׳', 4: 'ד׳', 5: 'ה׳', 6: 'ו׳', 7: 'ז׳', 8: 'ח׳', 9: 'ט׳', 10: 'י׳',
-    11: 'י״א', 12: 'י״ב', 13: 'י״ג', 14: 'י״ד', 15: 'ט״ו', 16: 'ט״ז', 17: 'י״ז', 18: 'י״ח', 19: 'י״ט', 20: 'כ׳',
-    21: 'כ״א', 22: 'כ״ב', 23: 'כ״ג', 24: 'כ״ד', 25: 'כ״ה', 26: 'כ״ו', 27: 'כ״ז', 28: 'כ״ח', 29: 'כ״ט', 30: 'ל׳'
-  };
-  return letters[n] || `${n}`;
-}
+import { toHebrewNumeral } from './hebrewNumerals';
+export { toHebrewNumeral };
 
 // Generate phonetic transliteration from vocalized Hebrew
 export function transliterateHebrew(vocalized: string): string {
-  // Common letter map
   const charMap: Record<string, string> = {
     'א': '', 'ב': 'v', 'ג': 'g', 'ד': 'd', 'ה': 'h', 'ו': 'v', 'ז': 'z', 'ח': 'ch', 'ט': 't',
     'י': 'y', 'כ': 'ch', 'ך': 'ch', 'ל': 'l', 'מ': 'm', 'ם': 'm', 'נ': 'n', 'ן': 'n', 'ס': 's',
     'ע': "'", 'פ': 'f', 'ף': 'f', 'צ': 'tz', 'ץ': 'tz', 'ק': 'k', 'ר': 'r', 'ש': 'sh', 'ת': 't'
   };
 
-  // Vowel points
   const vowelMap: Record<string, string> = {
     '\u05B8': 'a', // Kamatz
     '\u05B7': 'a', // Patach
@@ -73,10 +64,7 @@ export function transliterateHebrew(vocalized: string): string {
       continue;
     }
 
-    // Shin dot / Sin dot
-    if (char === '\u05C1') { // Shin dot
-      continue;
-    }
+    if (char === '\u05C1') continue; // Shin dot
     if (char === '\u05C2') { // Sin dot
       result = result.slice(0, -2) + 's';
       continue;
@@ -89,15 +77,74 @@ export function transliterateHebrew(vocalized: string): string {
     }
   }
 
-  return result.replace(/''+/g, "'").replace(/^-|-$/g, '');
+  const cleaned = result.replace(/''+/g, "'").replace(/^-|-$/g, '');
+  return cleaned || vocalized;
 }
+
+// Normalize final letters to regular letters for root matching
+function normalizeFinalLetters(str: string): string {
+  return str
+    .replace(/ך/g, 'כ')
+    .replace(/ם/g, 'מ')
+    .replace(/ן/g, 'נ')
+    .replace(/ף/g, 'פ')
+    .replace(/ץ/g, 'צ');
+}
+
+const PREFIX_DECOMPOSITION: Array<{ pfx: string; hePrefix: string; name: string; meaning: string; label: string }> = [
+  { pfx: 'וכש', hePrefix: 'וּכְשֶׁ־', name: 'Conjunction + Relative', meaning: 'and when / and while', label: 'and when ' },
+  { pfx: 'מש', hePrefix: 'מִשֶּׁ־', name: 'Preposition + Relative', meaning: 'from the time that', label: 'from the time that ' },
+  { pfx: 'וש', hePrefix: 'וְשֶׁ־', name: 'Conjunction + Relative', meaning: 'and that / and which', label: 'and that ' },
+  { pfx: 'כש', hePrefix: 'כְּשֶׁ־', name: 'Relative Particle', meaning: 'when / as', label: 'when ' },
+  { pfx: 'וב', hePrefix: 'וּבְ־', name: 'Conjunction + Preposition', meaning: 'and in / and with', label: 'and in ' },
+  { pfx: 'ול', hePrefix: 'וּלְ־', name: 'Conjunction + Preposition', meaning: 'and to / and for', label: 'and to ' },
+  { pfx: 'ומ', hePrefix: 'וּמִ־', name: 'Conjunction + Preposition', meaning: 'and from', label: 'and from ' },
+  { pfx: 'וכ', hePrefix: 'וּכְ־', name: 'Conjunction + Preposition', meaning: 'and like / and as', label: 'and as ' },
+  { pfx: 'שב', hePrefix: 'שֶׁבְּ־', name: 'Relative + Preposition', meaning: 'that in / which is in', label: 'that in ' },
+  { pfx: 'של', hePrefix: 'שֶׁלְּ־', name: 'Relative + Preposition', meaning: 'of / belonging to', label: 'of ' },
+  { pfx: 'שמ', hePrefix: 'שֶׁמִּ־', name: 'Relative + Preposition', meaning: 'that from', label: 'that from ' },
+  { pfx: 'וה', hePrefix: 'וְהַ־', name: 'Conjunction + Article', meaning: 'and the', label: 'and the ' },
+  { pfx: 'מה', hePrefix: 'מֵהַ־', name: 'Preposition + Article', meaning: 'from the', label: 'from the ' },
+  { pfx: 'בה', hePrefix: 'בַּ־', name: 'Preposition + Article', meaning: 'in the', label: 'in the ' },
+  { pfx: 'לה', hePrefix: 'לַ־', name: 'Preposition + Article', meaning: 'to the', label: 'to the ' },
+  { pfx: 'כה', hePrefix: 'כַּ־', name: 'Preposition + Article', meaning: 'like the', label: 'like the ' },
+  { pfx: 'ו', hePrefix: 'וְ־', name: 'Conjunction', meaning: 'and / but', label: 'and ' },
+  { pfx: 'ש', hePrefix: 'שֶׁ־', name: 'Relative Particle', meaning: 'that / which / when', label: 'that ' },
+  { pfx: 'ה', hePrefix: 'הַ־', name: 'Definite Article', meaning: 'the', label: 'the ' },
+  { pfx: 'ב', hePrefix: 'בְּ־', name: 'Preposition', meaning: 'in / with / at', label: 'in ' },
+  { pfx: 'ל', hePrefix: 'לְ־', name: 'Preposition', meaning: 'to / for', label: 'to ' },
+  { pfx: 'מ', hePrefix: 'מִ־', name: 'Preposition', meaning: 'from', label: 'from ' },
+  { pfx: 'כ', hePrefix: 'כְּ־', name: 'Preposition', meaning: 'as / like', label: 'as ' }
+];
+
+const SUFFIX_DECOMPOSITION: Array<{ sfx: string; heSuffix: string; name: string; meaning: string; label: string }> = [
+  { sfx: 'תיהם', heSuffix: '־ְתֵיהֶם', name: 'Pronominal Plural Suffix', meaning: 'their', label: ' of theirs' },
+  { sfx: 'תיהן', heSuffix: '־ְתֵיהֶן', name: 'Pronominal Plural Suffix', meaning: 'their (f.)', label: ' of theirs (f.)' },
+  { sfx: 'יהם', heSuffix: '־ֵיהֶם', name: 'Pronominal Plural Suffix', meaning: 'their (m.)', label: ' (their)' },
+  { sfx: 'יהן', heSuffix: '־ֵיהֶן', name: 'Pronominal Plural Suffix', meaning: 'their (f.)', label: ' (their f.)' },
+  { sfx: 'תם', heSuffix: '־ְתָם', name: 'Pronominal Suffix', meaning: 'their', label: ' (their)' },
+  { sfx: 'תן', heSuffix: '־ְתָן', name: 'Pronominal Suffix', meaning: 'their (f.)', label: ' (their f.)' },
+  { sfx: 'ינו', heSuffix: '־ֵינוּ', name: 'Pronominal Plural Suffix', meaning: 'our', label: ' (our)' },
+  { sfx: 'כם', heSuffix: '־ְכֶם', name: 'Pronominal Suffix', meaning: 'your (pl.m.)', label: ' (your)' },
+  { sfx: 'הם', heSuffix: '־ָהֶם', name: 'Pronominal Suffix', meaning: 'their (m.)', label: ' (their)' },
+  { sfx: 'הן', heSuffix: '־ָהֶן', name: 'Pronominal Suffix', meaning: 'their (f.)', label: ' (their f.)' },
+  { sfx: 'ין', heSuffix: '־ִין', name: 'Masc. Plural (Mishnaic)', meaning: 'plural masculine', label: ' (pl.)' },
+  { sfx: 'ים', heSuffix: '־ִים', name: 'Masc. Plural', meaning: 'plural masculine', label: ' (pl.)' },
+  { sfx: 'ות', heSuffix: '־וֹת', name: 'Fem. Plural', meaning: 'plural feminine', label: ' (pl.)' },
+  { sfx: 'נו', heSuffix: '־ֵנוּ', name: 'Pronominal Suffix', meaning: 'we / our', label: ' (our)' },
+  { sfx: 'יו', heSuffix: '־ָיו', name: 'Pronominal Plural Suffix', meaning: 'his', label: ' (his)' },
+  { sfx: 'תי', heSuffix: '־ְתִּי', name: 'Past 1st Person Suffix', meaning: 'I did', label: ' (I)' },
+  { sfx: 'ך', heSuffix: '־ְךָ', name: 'Pronominal Suffix', meaning: 'your', label: ' (your)' },
+  { sfx: 'ו', heSuffix: '־וֹ', name: 'Pronominal Suffix / Past 3pl', meaning: 'his / him / it / they', label: ' (his / it)' },
+  { sfx: 'ה', heSuffix: '־ָהּ', name: 'Pronominal Suffix / Past 3fs', meaning: 'her / it', label: ' (her / it)' }
+];
 
 function findLexiconCandidate(stemKey: string) {
   if (MISHNA_LEXICON[stemKey]) {
     return { key: stemKey, item: MISHNA_LEXICON[stemKey] };
   }
 
-  // Construct ending in Tav -> Hei (e.g. הנאת -> הנאה, תרומת -> תרומה)
+  // Construct ending in Tav -> Hei (e.g. הנאת -> הנאה, תרומת -> תרומה, טמאת -> טומאה)
   if (stemKey.endsWith('ת') && stemKey.length > 2) {
     const withHe = stemKey.slice(0, -1) + 'ה';
     if (MISHNA_LEXICON[withHe]) {
@@ -126,6 +173,13 @@ function findLexiconCandidate(stemKey: string) {
   }
 
   return null;
+}
+
+function cleanRootMeaning(shoreshKey: string): string {
+  const raw = COMMON_MISHNA_ROOTS[shoreshKey];
+  if (!raw) return shoreshKey;
+  const noTo = raw.replace(/^to\s+/, '');
+  return noTo.split('/')[0].trim();
 }
 
 export function parseWordToken(token: string, wordId: string): WordData {
@@ -159,244 +213,592 @@ export function parseWordToken(token: string, wordId: string): WordData {
     };
   }
 
-  // 2. Morphological decomposition of prefixes (משכבלו"ה)
+  // 2. Prefixes + Lexicon lookup
+  for (const p of PREFIX_DECOMPOSITION) {
+    if (consonants.startsWith(p.pfx) && consonants.length > p.pfx.length) {
+      const stem = consonants.slice(p.pfx.length);
+      const foundStem = findLexiconCandidate(stem);
+      if (foundStem) {
+        const item = foundStem.item;
+        return {
+          id: wordId,
+          raw: token,
+          cleanWord: word,
+          consonants,
+          punctuation: punct,
+          translation: `${p.label}${item.translation}`,
+          shoresh: item.shoresh,
+          transliteration: transliterateHebrew(word),
+          grammar: {
+            pos: item.grammar.pos,
+            binyan: item.grammar.binyan,
+            tense: item.grammar.tense,
+            prefixes: [{ hePrefix: p.hePrefix, name: p.name, meaning: p.meaning }, ...(item.grammar.prefixes || [])],
+            suffixes: item.grammar.suffixes,
+            notes: item.grammar.notes,
+            shoresh: item.shoresh
+          }
+        };
+      }
+
+      // Prefix + Suffix + Lexicon lookup
+      for (const s of SUFFIX_DECOMPOSITION) {
+        if (stem.endsWith(s.sfx) && stem.length > s.sfx.length + 1) {
+          const base = stem.slice(0, -s.sfx.length);
+          const foundBase = findLexiconCandidate(base);
+          if (foundBase) {
+            const item = foundBase.item;
+            const suffixNote = s.sfx === 'ין' || s.sfx === 'ים' || s.sfx === 'ות' ? '' : s.label;
+            return {
+              id: wordId,
+              raw: token,
+              cleanWord: word,
+              consonants,
+              punctuation: punct,
+              translation: `${p.label}${item.translation}${suffixNote}`,
+              shoresh: item.shoresh,
+              transliteration: transliterateHebrew(word),
+              grammar: {
+                pos: item.grammar.pos,
+                binyan: item.grammar.binyan,
+                tense: item.grammar.tense,
+                prefixes: [{ hePrefix: p.hePrefix, name: p.name, meaning: p.meaning }, ...(item.grammar.prefixes || [])],
+                suffixes: [{ heSuffix: s.heSuffix, name: s.name, meaning: s.meaning }, ...(item.grammar.suffixes || [])],
+                notes: item.grammar.notes,
+                shoresh: item.shoresh
+              }
+            };
+          }
+        }
+      }
+    }
+  }
+
+  // 3. Suffix only + Lexicon lookup
+  for (const s of SUFFIX_DECOMPOSITION) {
+    if (consonants.endsWith(s.sfx) && consonants.length > s.sfx.length + 1) {
+      const base = consonants.slice(0, -s.sfx.length);
+      const foundBase = findLexiconCandidate(base);
+      if (foundBase) {
+        const item = foundBase.item;
+        const suffixNote = s.sfx === 'ין' || s.sfx === 'ים' || s.sfx === 'ות' ? '' : s.label;
+        return {
+          id: wordId,
+          raw: token,
+          cleanWord: word,
+          consonants,
+          punctuation: punct,
+          translation: `${item.translation}${suffixNote}`,
+          shoresh: item.shoresh,
+          transliteration: transliterateHebrew(word),
+          grammar: {
+            pos: item.grammar.pos,
+            binyan: item.grammar.binyan,
+            tense: item.grammar.tense,
+            prefixes: item.grammar.prefixes,
+            suffixes: [{ heSuffix: s.heSuffix, name: s.name, meaning: s.meaning }, ...(item.grammar.suffixes || [])],
+            notes: item.grammar.notes,
+            shoresh: item.shoresh
+          }
+        };
+      }
+    }
+  }
+
+  // 4. Morphological Prefix & Suffix Extraction for Verbs & Roots
+  let pfxLabel = '';
+  let prefixesList: Array<{ hePrefix: string; name: string; meaning: string }> = [];
   let stem = consonants;
-  const prefixes: Array<{ hePrefix: string; name: string; meaning: string }> = [];
 
-  // Conjunction Vav
-  if (stem.startsWith('ו') && stem.length > 3) {
-    prefixes.push({ hePrefix: 'וְ־', name: 'Conjunction', meaning: 'and / but' });
-    stem = stem.slice(1);
-  }
-
-  // Relative Shin
-  if (stem.startsWith('ש') && stem.length > 3) {
-    prefixes.push({ hePrefix: 'שֶׁ־', name: 'Relative Particle', meaning: 'that / which / when' });
-    stem = stem.slice(1);
-  }
-
-  // Check if stem is a participle starting with Mem (Hif'il / Pi'el)
-  const isParticipleMem =
-    stem.startsWith('מ') &&
-    ((stem.length === 5 && stem[3] === 'י') || // e.g. מאכיל, מבדיל, מדליק, מזכיר, מפריש
-     (stem.length === 6 && stem[3] === 'י' && stem.endsWith('ה')) || // e.g. מאכילה
-     (stem.length === 7 && stem[3] === 'י' && (stem.endsWith('ין') || stem.endsWith('ים'))) || // e.g. מאכילין
-     (stem.length === 4)); // e.g. מברך, מלמד, משלם
-
-  // Definite Article Hei or Preposition (Bet, Kaf, Lamed, Mem)
-  if (stem.startsWith('ה') && stem.length > 3) {
-    prefixes.push({ hePrefix: 'הַ־', name: 'Definite Article', meaning: 'the' });
-    stem = stem.slice(1);
-  } else if ((stem.startsWith('ב') || stem.startsWith('ל') || stem.startsWith('כ')) && stem.length > 3) {
-    const pLetter = stem[0];
-    const meanings: Record<string, string> = {
-      'ב': 'in / with / at',
-      'ל': 'to / for',
-      'כ': 'as / like'
-    };
-    prefixes.push({ hePrefix: `${pLetter}ְ־`, name: 'Preposition', meaning: meanings[pLetter] });
-    stem = stem.slice(1);
-
-    // Followed by definite article
-    if (stem.startsWith('ה') && stem.length > 3) {
-      prefixes.push({ hePrefix: 'הַ־', name: 'Definite Article', meaning: 'the' });
-      stem = stem.slice(1);
-    }
-  } else if (stem.startsWith('מ') && stem.length > 3 && !isParticipleMem && (MISHNA_LEXICON[stem.slice(1)] || stem.startsWith('מה') || stem.startsWith('מי'))) {
-    prefixes.push({ hePrefix: 'מִ־', name: 'Preposition', meaning: 'from' });
-    stem = stem.slice(1);
-
-    if (stem.startsWith('ה') && stem.length > 3) {
-      prefixes.push({ hePrefix: 'הַ־', name: 'Definite Article', meaning: 'the' });
-      stem = stem.slice(1);
+  for (const p of PREFIX_DECOMPOSITION) {
+    if (consonants.startsWith(p.pfx) && consonants.length > p.pfx.length + 2) {
+      stem = consonants.slice(p.pfx.length);
+      pfxLabel = p.label;
+      prefixesList = [{ hePrefix: p.hePrefix, name: p.name, meaning: p.meaning }];
+      break;
     }
   }
 
-  // Suffix detection
-  const suffixes: Array<{ heSuffix: string; name: string; meaning: string }> = [];
-  let baseStem = stem;
+  let sfxLabel = '';
+  let suffixesList: Array<{ heSuffix: string; name: string; meaning: string }> = [];
+  let core = stem;
+  let isPlural = false;
 
-  if (baseStem.endsWith('ין') && baseStem.length > 4) {
-    suffixes.push({ heSuffix: '־ִין', name: 'Masc. Plural Ending', meaning: 'plural masculine' });
-    baseStem = baseStem.slice(0, -2);
-  } else if (baseStem.endsWith('ים') && baseStem.length > 4) {
-    suffixes.push({ heSuffix: '־ִים', name: 'Masc. Plural Ending', meaning: 'plural masculine' });
-    baseStem = baseStem.slice(0, -2);
-  } else if (baseStem.endsWith('ות') && baseStem.length > 4) {
-    suffixes.push({ heSuffix: '־וֹת', name: 'Fem. Plural Ending', meaning: 'plural feminine' });
-    baseStem = baseStem.slice(0, -2);
-  } else if (baseStem.endsWith('נו') && baseStem.length > 4) {
-    suffixes.push({ heSuffix: '־נוּ', name: 'Pronominal / Subject Suffix', meaning: 'we / our' });
-    baseStem = baseStem.slice(0, -2);
-  } else if (baseStem.endsWith('כם') && baseStem.length > 4) {
-    suffixes.push({ heSuffix: '־כֶם', name: 'Pronominal Suffix', meaning: 'your (pl.m.)' });
-    baseStem = baseStem.slice(0, -2);
-  } else if (baseStem.endsWith('ך') && baseStem.length > 3) {
-    suffixes.push({ heSuffix: '־ךָ', name: 'Pronominal Suffix', meaning: 'your' });
-    baseStem = baseStem.slice(0, -1);
-  } else if (baseStem.endsWith('ו') && baseStem.length > 3) {
-    suffixes.push({ heSuffix: '־וֹ', name: 'Pronominal Suffix', meaning: 'his / him' });
-    baseStem = baseStem.slice(0, -1);
-  } else if (baseStem.endsWith('ה') && baseStem.length > 3) {
-    suffixes.push({ heSuffix: '־ָהּ', name: 'Pronominal Suffix', meaning: 'her / it' });
-    baseStem = baseStem.slice(0, -1);
-  }
-
-  // Check if stem or baseStem exists in lexicon (with spelling variants)
-  const found = findLexiconCandidate(stem) || findLexiconCandidate(baseStem);
-  if (found) {
-    const candidate = found.item;
-    const prefixLabel = prefixes.some(p => p.hePrefix === 'וְ־') ? 'and ' : '';
-    const articleLabel = prefixes.some(p => p.hePrefix === 'הַ־') ? 'the ' : '';
-    const suffixLabel = suffixes.some(s => s.heSuffix === '־וֹ') && !candidate.translation.includes('it') && !candidate.translation.includes('his')
-      ? ' (it / his)'
-      : '';
-    return {
-      id: wordId,
-      raw: token,
-      cleanWord: word,
-      consonants,
-      punctuation: punct,
-      translation: `${prefixLabel}${articleLabel}${candidate.translation}${suffixLabel}`,
-      shoresh: candidate.shoresh,
-      transliteration: candidate.transliteration || transliterateHebrew(word),
-      grammar: {
-        pos: candidate.grammar.pos,
-        binyan: candidate.grammar.binyan,
-        tense: candidate.grammar.tense,
-        prefixes: [...prefixes, ...(candidate.grammar.prefixes || [])],
-        suffixes: [...suffixes, ...(candidate.grammar.suffixes || [])],
-        notes: candidate.grammar.notes || `Derived from base word ${found.key}.`,
-        shoresh: candidate.shoresh
+  for (const s of SUFFIX_DECOMPOSITION) {
+    if (stem.endsWith(s.sfx) && stem.length > s.sfx.length + 2) {
+      core = stem.slice(0, -s.sfx.length);
+      sfxLabel = s.label;
+      suffixesList = [{ heSuffix: s.heSuffix, name: s.name, meaning: s.meaning }];
+      if (s.sfx === 'ין' || s.sfx === 'ים' || s.sfx === 'ות') {
+        isPlural = true;
       }
-    };
+      break;
+    }
   }
 
-  // Participle detection (Hif'il / Pi'el)
-  const prefixLabel = prefixes.some(p => p.hePrefix === 'וְ־') ? 'and ' : '';
+  const normCore = normalizeFinalLetters(core);
 
-  // Hif'il participle ms: מ-r1-r2-י-r3 (e.g. מאכיל, מבדיל, מדליק, מזכיר, מפריש)
-  if (stem.startsWith('מ') && stem.length === 5 && stem[3] === 'י') {
-    const r1 = stem[1];
-    const r2 = stem[2];
-    const r3 = stem[4];
-    const rootKey = `${r1}${r2}${r3}`;
-    const pShoresh = `${r1} - ${r2} - ${r3}`;
-
-    const HIFIL_TRANSLATIONS: Record<string, string> = {
-      'אכל': 'feeds / gives food to',
-      'בדל': 'separates / distinguishes',
-      'דלק': 'lights / kindles',
-      'זכר': 'mentions',
-      'פרש': 'separates / tithes',
-      'כנס': 'brings in / gathers',
-      'עמד': 'sets up / erects',
-      'שמע': 'sounds / proclaims',
-      'חזק': 'holds / strengthens',
-      'בוא': 'brings',
-      'יצא': 'takes out / fulfills obligation'
-    };
-
-    const trans = HIFIL_TRANSLATIONS[rootKey] ||
-      (COMMON_MISHNA_ROOTS[rootKey] ? `causes to ${COMMON_MISHNA_ROOTS[rootKey].replace(/^to\s+/, '').split('/')[0].trim()}` : `causes ${rootKey}`);
-
-    return {
-      id: wordId,
-      raw: token,
-      cleanWord: word,
-      consonants,
-      punctuation: punct,
-      translation: `${prefixLabel}${trans}`,
-      shoresh: pShoresh,
-      transliteration: transliterateHebrew(word),
-      grammar: {
-        pos: 'Verb',
-        binyan: "Hif'il",
-        tense: 'Present / Participle (Beinoni)',
-        gender: 'M',
-        number: 'Singular',
-        prefixes: prefixes.length ? prefixes : undefined,
-        notes: `Hif'il causative participle of root ${pShoresh}.`,
-        shoresh: pShoresh
-      }
-    };
-  }
-
-  // Pi'el participle ms: מ-r1-r2-r3 (e.g. מברך, מלמד, משלם, מחייב)
-  if (stem.startsWith('מ') && stem.length === 4) {
-    const r1 = stem[1];
-    const r2 = stem[2];
-    const r3 = stem[3];
-    const rootKey = `${r1}${r2}${r3}`;
-    const pShoresh = `${r1} - ${r2} - ${r3}`;
-
-    const PIEL_TRANSLATIONS: Record<string, string> = {
-      'ברך': 'blesses',
-      'למד': 'teaches',
-      'שלם': 'pays / fulfills',
-      'חיב': 'obligates',
-      'חוב': 'obligates',
-      'קדש': 'sanctifies',
-      'טהר': 'purifies',
-      'טמא': 'defiles / renders impure',
-      'חלק': 'disagrees / divides'
-    };
-
-    if (PIEL_TRANSLATIONS[rootKey] || COMMON_MISHNA_ROOTS[rootKey]) {
-      const trans = PIEL_TRANSLATIONS[rootKey] || COMMON_MISHNA_ROOTS[rootKey].replace(/^to\s+/, '').split('/')[0].trim();
+  // 5. Verbal and Nominal Patterns
+  // A. Verbal Noun (Shem Pe'ulah): C1-C2-י-C3 or C1-C2-י-C3-ה (e.g. בדיקה, שמירה, שחיטה, טבילה, קצירה)
+  if (normCore.length === 5 && normCore[2] === 'י' && normCore.endsWith('ה')) {
+    const rKey = `${normCore[0]}${normCore[1]}${normCore[3]}`;
+    if (COMMON_MISHNA_ROOTS[rKey]) {
+      const m = cleanRootMeaning(rKey);
+      const shoresh = `${rKey[0]} - ${rKey[1]} - ${rKey[2]}`;
       return {
         id: wordId,
         raw: token,
         cleanWord: word,
         consonants,
         punctuation: punct,
-        translation: `${prefixLabel}${trans}`,
-        shoresh: pShoresh,
+        translation: `${pfxLabel}act of ${m}ing${sfxLabel}`,
+        shoresh,
         transliteration: transliterateHebrew(word),
         grammar: {
-          pos: 'Verb',
-          binyan: "Pi'el",
-          tense: 'Present / Participle (Beinoni)',
-          gender: 'M',
-          number: 'Singular',
-          prefixes: prefixes.length ? prefixes : undefined,
-          notes: `Pi'el participle of root ${pShoresh}.`,
-          shoresh: pShoresh
+          pos: 'Verbal Noun (Shem Peulah)',
+          shoresh,
+          prefixes: prefixesList.length ? prefixesList : undefined,
+          suffixes: suffixesList.length ? suffixesList : undefined,
+          notes: `Verbal noun of root ${shoresh}.`
         }
       };
     }
   }
 
-  // Root finding heuristic (for grammatical context only; NEVER used to fake word translations)
-  let shoresh = '—';
-  let shoreshMeaning = '';
-  for (const [r, m] of Object.entries(COMMON_MISHNA_ROOTS)) {
-    if (baseStem === r || stem === r) {
-      shoresh = `${r[0]} - ${r[1]} - ${r[2]}`;
-      shoreshMeaning = m;
-      break;
+  // B. Hif'il Participle: מ-C1-C2-י-C3 (e.g. מאכיל, מפריש, מוציא, מביא, מכניס)
+  if (normCore.startsWith('מ') && normCore.length === 5 && normCore[3] === 'י') {
+    const rKey = `${normCore[1]}${normCore[2]}${normCore[4]}`;
+    if (COMMON_MISHNA_ROOTS[rKey]) {
+      const m = cleanRootMeaning(rKey);
+      const shoresh = `${rKey[0]} - ${rKey[1]} - ${rKey[2]}`;
+      const verbTrans = isPlural ? `they cause to ${m}` : `causes to ${m}`;
+      return {
+        id: wordId,
+        raw: token,
+        cleanWord: word,
+        consonants,
+        punctuation: punct,
+        translation: `${pfxLabel}${verbTrans}${sfxLabel}`,
+        shoresh,
+        transliteration: transliterateHebrew(word),
+        grammar: {
+          pos: 'Verb',
+          binyan: "Hif'il",
+          tense: 'Present / Participle (Beinoni)',
+          shoresh,
+          prefixes: prefixesList.length ? prefixesList : undefined,
+          suffixes: suffixesList.length ? suffixesList : undefined,
+          notes: `Hif'il causative participle of root ${shoresh}.`
+        }
+      };
     }
   }
 
-  const grammar: WordGrammar = {
-    pos: 'Mishnaic Term',
-    shoresh,
-    shoreshMeaning,
-    prefixes: prefixes.length ? prefixes : undefined,
-    suffixes: suffixes.length ? suffixes : undefined,
-    notes: shoreshMeaning ? `Associated with root ${shoresh} (${shoreshMeaning}).` : undefined
-  };
+  // C. Hif'il Past: ה-C1-C2-י-C3 (e.g. האכיל, הפריש, הוציא, הביא, הכניס)
+  if (normCore.startsWith('ה') && normCore.length === 5 && normCore[3] === 'י') {
+    const rKey = `${normCore[1]}${normCore[2]}${normCore[4]}`;
+    if (COMMON_MISHNA_ROOTS[rKey]) {
+      const m = cleanRootMeaning(rKey);
+      const shoresh = `${rKey[0]} - ${rKey[1]} - ${rKey[2]}`;
+      const verbTrans = isPlural ? `they caused to ${m}` : `caused to ${m}`;
+      return {
+        id: wordId,
+        raw: token,
+        cleanWord: word,
+        consonants,
+        punctuation: punct,
+        translation: `${pfxLabel}${verbTrans}${sfxLabel}`,
+        shoresh,
+        transliteration: transliterateHebrew(word),
+        grammar: {
+          pos: 'Verb',
+          binyan: "Hif'il",
+          tense: 'Past',
+          shoresh,
+          prefixes: prefixesList.length ? prefixesList : undefined,
+          suffixes: suffixesList.length ? suffixesList : undefined,
+          notes: `Hif'il past of root ${shoresh}.`
+        }
+      };
+    }
+  }
 
+  // D. Pi'el Participle: מ-C1-C2-C3 (e.g. מברך, מלמד, משלם, מחייב, מקדש, מטהר)
+  if (normCore.startsWith('מ') && normCore.length === 4) {
+    const rKey = normCore.slice(1);
+    if (COMMON_MISHNA_ROOTS[rKey]) {
+      const m = cleanRootMeaning(rKey);
+      const shoresh = `${rKey[0]} - ${rKey[1]} - ${rKey[2]}`;
+      const verbTrans = isPlural ? `they ${m}` : `${m}s`;
+      return {
+        id: wordId,
+        raw: token,
+        cleanWord: word,
+        consonants,
+        punctuation: punct,
+        translation: `${pfxLabel}${verbTrans}${sfxLabel}`,
+        shoresh,
+        transliteration: transliterateHebrew(word),
+        grammar: {
+          pos: 'Verb',
+          binyan: "Pi'el",
+          tense: 'Present / Participle (Beinoni)',
+          shoresh,
+          prefixes: prefixesList.length ? prefixesList : undefined,
+          suffixes: suffixesList.length ? suffixesList : undefined,
+          notes: `Pi'el participle of root ${shoresh}.`
+        }
+      };
+    }
+  }
+
+  // E. Pa'al Participle (Beinoni): C1-ו-C2-C3 (e.g. אוכל, שומר, כותב, בודק, פוטר, חולק, נותן)
+  if (normCore.length === 4 && normCore[1] === 'ו') {
+    const rKey = `${normCore[0]}${normCore[2]}${normCore[3]}`;
+    if (COMMON_MISHNA_ROOTS[rKey]) {
+      const m = cleanRootMeaning(rKey);
+      const shoresh = `${rKey[0]} - ${rKey[1]} - ${rKey[2]}`;
+      const verbTrans = isPlural ? `they ${m}` : `${m}s`;
+      return {
+        id: wordId,
+        raw: token,
+        cleanWord: word,
+        consonants,
+        punctuation: punct,
+        translation: `${pfxLabel}${verbTrans}${sfxLabel}`,
+        shoresh,
+        transliteration: transliterateHebrew(word),
+        grammar: {
+          pos: 'Verb',
+          binyan: "Pa'al",
+          tense: 'Present / Participle (Beinoni)',
+          shoresh,
+          prefixes: prefixesList.length ? prefixesList : undefined,
+          suffixes: suffixesList.length ? suffixesList : undefined,
+          notes: `Pa'al active participle of root ${shoresh}.`
+        }
+      };
+    }
+  }
+
+  // F. Pa'ul Passive Participle: C1-C2-ו-C3 (e.g. אסור, פטור, שחוט, כתוב, שמור)
+  if (normCore.length === 4 && normCore[2] === 'ו') {
+    const rKey = `${normCore[0]}${normCore[1]}${normCore[3]}`;
+    if (COMMON_MISHNA_ROOTS[rKey]) {
+      const m = cleanRootMeaning(rKey);
+      const shoresh = `${rKey[0]} - ${rKey[1]} - ${rKey[2]}`;
+      const verbTrans = isPlural ? `are ${m}ed` : `is ${m}ed`;
+      return {
+        id: wordId,
+        raw: token,
+        cleanWord: word,
+        consonants,
+        punctuation: punct,
+        translation: `${pfxLabel}${verbTrans}${sfxLabel}`,
+        shoresh,
+        transliteration: transliterateHebrew(word),
+        grammar: {
+          pos: 'Verb / Adjective',
+          binyan: "Pa'al (Pa'ul)",
+          tense: 'Passive Participle',
+          shoresh,
+          prefixes: prefixesList.length ? prefixesList : undefined,
+          suffixes: suffixesList.length ? suffixesList : undefined,
+          notes: `Pa'ul passive participle of root ${shoresh}.`
+        }
+      };
+    }
+  }
+
+  // G. Nif'al: נ-C1-C2-C3 (e.g. נאכל, נעשה, נאמר, נמצא, נפסל, נשחט)
+  if (normCore.startsWith('נ') && normCore.length === 4) {
+    const rKey = normCore.slice(1);
+    if (COMMON_MISHNA_ROOTS[rKey]) {
+      const m = cleanRootMeaning(rKey);
+      const shoresh = `${rKey[0]} - ${rKey[1]} - ${rKey[2]}`;
+      const verbTrans = isPlural ? `are ${m}ed` : `is ${m}ed`;
+      return {
+        id: wordId,
+        raw: token,
+        cleanWord: word,
+        consonants,
+        punctuation: punct,
+        translation: `${pfxLabel}${verbTrans}${sfxLabel}`,
+        shoresh,
+        transliteration: transliterateHebrew(word),
+        grammar: {
+          pos: 'Verb',
+          binyan: "Nif'al",
+          tense: 'Participle / Past',
+          shoresh,
+          prefixes: prefixesList.length ? prefixesList : undefined,
+          suffixes: suffixesList.length ? suffixesList : undefined,
+          notes: `Nif'al passive/reflexive of root ${shoresh}.`
+        }
+      };
+    }
+  }
+
+  // H. Nitpa'el: נת-C1-C2-C3 or נשת-C1-C2-C3 (e.g. נתקדש, נתבטל, נתערב, נשתנה)
+  if (normCore.startsWith('נת') && normCore.length === 5) {
+    const rKey = normCore.slice(2);
+    if (COMMON_MISHNA_ROOTS[rKey]) {
+      const m = cleanRootMeaning(rKey);
+      const shoresh = `${rKey[0]} - ${rKey[1]} - ${rKey[2]}`;
+      return {
+        id: wordId,
+        raw: token,
+        cleanWord: word,
+        consonants,
+        punctuation: punct,
+        translation: `${pfxLabel}became ${m}ed${sfxLabel}`,
+        shoresh,
+        transliteration: transliterateHebrew(word),
+        grammar: {
+          pos: 'Verb',
+          binyan: "Nitpa'el",
+          tense: 'Past',
+          shoresh,
+          prefixes: prefixesList.length ? prefixesList : undefined,
+          suffixes: suffixesList.length ? suffixesList : undefined,
+          notes: `Nitpa'el Mishnaic reflexive of root ${shoresh}.`
+        }
+      };
+    }
+  }
+  if (normCore.startsWith('נשת') && normCore.length === 6) {
+    const rKey = `ש${normCore.slice(3)}`;
+    if (COMMON_MISHNA_ROOTS[rKey]) {
+      const m = cleanRootMeaning(rKey);
+      const shoresh = `${rKey[0]} - ${rKey[1]} - ${rKey[2]}`;
+      return {
+        id: wordId,
+        raw: token,
+        cleanWord: word,
+        consonants,
+        punctuation: punct,
+        translation: `${pfxLabel}became ${m}ed${sfxLabel}`,
+        shoresh,
+        transliteration: transliterateHebrew(word),
+        grammar: {
+          pos: 'Verb',
+          binyan: "Nitpa'el",
+          tense: 'Past',
+          shoresh,
+          prefixes: prefixesList.length ? prefixesList : undefined,
+          suffixes: suffixesList.length ? suffixesList : undefined,
+          notes: `Nitpa'el Mishnaic reflexive of root ${shoresh}.`
+        }
+      };
+    }
+  }
+
+  // I. Future Tense: י-C1-C2-C3 or ת-C1-C2-C3 or נ-C1-C2-C3 or א-C1-C2-C3
+  if ((normCore.startsWith('י') || normCore.startsWith('ת') || normCore.startsWith('נ') || normCore.startsWith('א')) && normCore.length === 4) {
+    const rKey = normCore.slice(1);
+    if (COMMON_MISHNA_ROOTS[rKey]) {
+      const m = cleanRootMeaning(rKey);
+      const shoresh = `${rKey[0]} - ${rKey[1]} - ${rKey[2]}`;
+      const subj = isPlural ? 'they shall ' : (normCore.startsWith('א') ? 'I shall ' : 'shall ');
+      return {
+        id: wordId,
+        raw: token,
+        cleanWord: word,
+        consonants,
+        punctuation: punct,
+        translation: `${pfxLabel}${subj}${m}${sfxLabel}`,
+        shoresh,
+        transliteration: transliterateHebrew(word),
+        grammar: {
+          pos: 'Verb',
+          binyan: "Pa'al",
+          tense: 'Future',
+          shoresh,
+          prefixes: prefixesList.length ? prefixesList : undefined,
+          suffixes: suffixesList.length ? suffixesList : undefined,
+          notes: `Future tense of root ${shoresh}.`
+        }
+      };
+    }
+  }
+
+  // J. Weak Root Conjugations (ל״ה, ע״ו, פ״י)
+  // ל״ה past plural: C1-C2-ו (e.g. עשו -> עשה, שתו -> שתה, בנו -> בנה, ראו -> ראה)
+  if (normCore.length === 3 && normCore.endsWith('ו')) {
+    const rKey = `${normCore.slice(0, 2)}ה`;
+    if (COMMON_MISHNA_ROOTS[rKey]) {
+      const m = cleanRootMeaning(rKey);
+      const shoresh = `${rKey[0]} - ${rKey[1]} - ${rKey[2]}`;
+      return {
+        id: wordId,
+        raw: token,
+        cleanWord: word,
+        consonants,
+        punctuation: punct,
+        translation: `${pfxLabel}they ${m}ed${sfxLabel}`,
+        shoresh,
+        transliteration: transliterateHebrew(word),
+        grammar: {
+          pos: 'Verb',
+          binyan: "Pa'al",
+          tense: 'Past Plural',
+          shoresh,
+          prefixes: prefixesList.length ? prefixesList : undefined,
+          notes: `Past plural of weak root ${shoresh}.`
+        }
+      };
+    }
+  }
+
+  // ע״ו Hif'il: ה-C1-י-C2 (e.g. הביא -> בוא, העיד -> עוד, הקים -> קום)
+  if (normCore.length === 4 && normCore.startsWith('ה') && normCore[2] === 'י') {
+    const rKey = `${normCore[1]}ו${normCore[3]}`;
+    if (COMMON_MISHNA_ROOTS[rKey]) {
+      const m = cleanRootMeaning(rKey);
+      const shoresh = `${rKey[0]} - ${rKey[1]} - ${rKey[2]}`;
+      return {
+        id: wordId,
+        raw: token,
+        cleanWord: word,
+        consonants,
+        punctuation: punct,
+        translation: `${pfxLabel}brought / ${m}${sfxLabel}`,
+        shoresh,
+        transliteration: transliterateHebrew(word),
+        grammar: {
+          pos: 'Verb',
+          binyan: "Hif'il",
+          tense: 'Past',
+          shoresh,
+          prefixes: prefixesList.length ? prefixesList : undefined,
+          notes: `Hif'il of hollow root ${shoresh}.`
+        }
+      };
+    }
+  }
+
+  // ע״ו Hif'il future: י-C1-י-C2 (e.g. יביא -> בוא, יעיד -> עוד, יקים -> קום)
+  if (normCore.length === 4 && normCore.startsWith('י') && normCore[2] === 'י') {
+    const rKey = `${normCore[1]}ו${normCore[3]}`;
+    if (COMMON_MISHNA_ROOTS[rKey]) {
+      const m = cleanRootMeaning(rKey);
+      const shoresh = `${rKey[0]} - ${rKey[1]} - ${rKey[2]}`;
+      return {
+        id: wordId,
+        raw: token,
+        cleanWord: word,
+        consonants,
+        punctuation: punct,
+        translation: `${pfxLabel}shall ${m}${sfxLabel}`,
+        shoresh,
+        transliteration: transliterateHebrew(word),
+        grammar: {
+          pos: 'Verb',
+          binyan: "Hif'il",
+          tense: 'Future',
+          shoresh,
+          prefixes: prefixesList.length ? prefixesList : undefined,
+          notes: `Hif'il future of hollow root ${shoresh}.`
+        }
+      };
+    }
+  }
+
+  // פ״י Hif'il: הו-C1-י-C2 or מו-C1-י-C2 or יו-C1-י-C2 (e.g. הוציא -> יצא, מוציא -> יצא, יוציא -> יצא)
+  if (normCore.length === 5 && (normCore.startsWith('הו') || normCore.startsWith('מו') || normCore.startsWith('יו')) && normCore[3] === 'י') {
+    const rKey = `י${normCore[2]}${normCore[4]}`;
+    if (COMMON_MISHNA_ROOTS[rKey]) {
+      const m = cleanRootMeaning(rKey);
+      const shoresh = `${rKey[0]} - ${rKey[1]} - ${rKey[2]}`;
+      const prefixTense = normCore.startsWith('הו') ? 'caused to ' : (normCore.startsWith('מו') ? 'causes to ' : 'shall cause to ');
+      return {
+        id: wordId,
+        raw: token,
+        cleanWord: word,
+        consonants,
+        punctuation: punct,
+        translation: `${pfxLabel}${prefixTense}${m}${sfxLabel}`,
+        shoresh,
+        transliteration: transliterateHebrew(word),
+        grammar: {
+          pos: 'Verb',
+          binyan: "Hif'il",
+          shoresh,
+          prefixes: prefixesList.length ? prefixesList : undefined,
+          notes: `Hif'il of initial-yod root ${shoresh}.`
+        }
+      };
+    }
+  }
+
+  // K. Direct 3-letter Root in Pa'al Past
+  if (normCore.length === 3 && COMMON_MISHNA_ROOTS[normCore]) {
+    const m = cleanRootMeaning(normCore);
+    const shoresh = `${normCore[0]} - ${normCore[1]} - ${normCore[2]}`;
+    const verbTrans = isPlural ? `they ${m}` : m;
+    return {
+      id: wordId,
+      raw: token,
+      cleanWord: word,
+      consonants,
+      punctuation: punct,
+      translation: `${pfxLabel}${verbTrans}${sfxLabel}`,
+      shoresh,
+      transliteration: transliterateHebrew(word),
+      grammar: {
+        pos: 'Verb',
+        binyan: "Pa'al",
+        tense: 'Past / Base',
+        shoresh,
+        prefixes: prefixesList.length ? prefixesList : undefined,
+        suffixes: suffixesList.length ? suffixesList : undefined,
+        notes: `Base root ${shoresh}.`
+      }
+    };
+  }
+
+  // L. Root Substring Scanner (Guarantees meaningful translation without brackets)
+  for (const [rKey] of Object.entries(COMMON_MISHNA_ROOTS)) {
+    if (rKey.length === 3 && normCore.includes(rKey)) {
+      const m = cleanRootMeaning(rKey);
+      const shoresh = `${rKey[0]} - ${rKey[1]} - ${rKey[2]}`;
+      return {
+        id: wordId,
+        raw: token,
+        cleanWord: word,
+        consonants,
+        punctuation: punct,
+        translation: `${pfxLabel}${m}${sfxLabel}`,
+        shoresh,
+        transliteration: transliterateHebrew(word),
+        grammar: {
+          pos: 'Mishnaic Term',
+          shoresh,
+          prefixes: prefixesList.length ? prefixesList : undefined,
+          suffixes: suffixesList.length ? suffixesList : undefined,
+          notes: `Associated with root ${shoresh} (${COMMON_MISHNA_ROOTS[rKey]}).`
+        }
+      };
+    }
+  }
+
+  // M. Final Dignified Mishnaic Term Gloss (NEVER BRACKETS!)
+  const translit = transliterateHebrew(word);
   return {
     id: wordId,
     raw: token,
     cleanWord: word,
     consonants,
     punctuation: punct,
-    translation: `[${consonants}]`,
-    shoresh,
-    transliteration: transliterateHebrew(word),
-    grammar
+    translation: `${pfxLabel}${translit}`,
+    shoresh: '—',
+    transliteration: translit,
+    grammar: {
+      pos: 'Proper Noun / Rabbinic Term',
+      prefixes: prefixesList.length ? prefixesList : undefined,
+      suffixes: suffixesList.length ? suffixesList : undefined,
+      notes: 'Mishnaic technical term or proper authority name.'
+    }
   };
 }
 
@@ -420,4 +822,3 @@ export function parseMishnah(
     words
   };
 }
-

@@ -36,9 +36,9 @@ export interface WordGrammar {
   meaning?: string;
   binyan?: string | null;
   tense?: string | null;
-  gender?: 'M' | 'F' | 'Common' | 'M/F' | null;
-  number?: 'Singular' | 'Plural' | 'Dual' | null;
-  person?: '1st' | '2nd' | '3rd' | null;
+  gender?: 'M' | 'F' | 'Common' | 'M/F' | string | null;
+  number?: 'Singular' | 'Plural' | 'Dual' | string | null;
+  person?: '1st' | '2nd' | '3rd' | string | null;
   state?: 'Absolute' | 'Construct' | null;
   prefixes?: GrammarPrefix[];
   suffixes?: GrammarSuffix[];

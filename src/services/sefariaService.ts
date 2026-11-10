@@ -191,6 +191,26 @@ export class SefariaService {
       // Ignore localStorage errors
     }
 
+    // 2.5 Check static pre-aligned AI datasets in /data/tractates/{slug}.json
+    try {
+      const cleanSlug = tractateSlug.toLowerCase().replace(/^mishnah_/, 'mishnah_');
+      const staticUrl = `/data/tractates/${cleanSlug}.json`;
+      const staticRes = await fetch(staticUrl);
+      if (staticRes.ok) {
+        const tractateMap = await staticRes.json();
+        const chapterEntry = tractateMap[String(chapter)];
+        if (chapterEntry && chapterEntry.mishnayot && chapterEntry.mishnayot.length > 0) {
+          CHAPTER_CACHE.set(cacheKey, chapterEntry);
+          try {
+            localStorage.setItem(storageKey, JSON.stringify(chapterEntry));
+          } catch {}
+          return chapterEntry;
+        }
+      }
+    } catch {
+      // Fallback to live Sefaria fetch
+    }
+
     // 3. Fetch from Sefaria API
     const tractate = this.getTractate(tractateSlug);
     const url = `https://www.sefaria.org/api/texts/${tractateSlug}.${chapter}?context=0`;
@@ -383,6 +403,61 @@ export class SefariaService {
               const stemEntries = await this.fetchRawLexicon(stem);
               parsed = parseLexiconEntries(stemEntries, stem, pref.label);
               if (parsed) break;
+            }
+          }
+        }
+      }
+
+      // If still not parsed, try Mishnaic lemmatization (participles, plural, future, object suffixes)
+      if (!parsed) {
+        let base = consonants;
+        if (base.startsWith('ו') || base.startsWith('ש') || base.startsWith('ה') || base.startsWith('ב') || base.startsWith('ל') || base.startsWith('כ')) {
+          base = base.slice(1);
+        }
+
+        const lemmaCandidates: Array<{ lemma: string; typeHint?: string; prefixText?: string; suffixText?: string }> = [];
+
+        // Plural masculine in -in / -im (e.g. אוחזין -> אחז, בודקין -> בדק)
+        if (base.endsWith('ין') || base.endsWith('ים')) {
+          const cut = base.slice(0, -2);
+          if (cut.length === 4 && cut[1] === 'ו') {
+            lemmaCandidates.push({ lemma: cut[0] + cut[2] + cut[3], typeHint: "Pa'al Participle (Plural)", suffixText: ' (pl.)' });
+          }
+          lemmaCandidates.push({ lemma: cut });
+        }
+        // Plural feminine in -ot (e.g. ממונות -> ממון, חבלות -> חבלה)
+        if (base.endsWith('ות')) {
+          const cut = base.slice(0, -2);
+          lemmaCandidates.push({ lemma: cut });
+          lemmaCandidates.push({ lemma: cut + 'ה' });
+        }
+        // Future prefix Yud (e.g. יחלוקו -> חלק, ישבע -> שבע)
+        if (base.startsWith('י') && base.length >= 4) {
+          let core = base.slice(1);
+          if (core.endsWith('ו')) core = core.slice(0, -1);
+          core = core.replace(/ו/g, '');
+          if (core.length === 3) {
+            lemmaCandidates.push({ lemma: core, typeHint: 'Verb (Future)', prefixText: 'shall / will ' });
+          }
+        }
+        // Object suffixes -tiah / -tiha (e.g. מצאתיה -> מצא)
+        if (base.endsWith('תיה') || base.endsWith('תיו')) {
+          const cut = base.slice(0, -3);
+          lemmaCandidates.push({ lemma: cut, suffixText: ' it' });
+        }
+
+        for (const cand of lemmaCandidates) {
+          const entries = await this.fetchRawLexicon(cand.lemma);
+          if (entries && entries.length > 0) {
+            const res = parseLexiconEntries(entries, cand.lemma, cand.prefixText || '');
+            if (res) {
+              parsed = {
+                ...res,
+                translation: `${res.translation}${cand.suffixText || ''}`,
+                pos: cand.typeHint || res.pos,
+                shoresh: cand.lemma.length === 3 ? `${cand.lemma[0]} - ${cand.lemma[1]} - ${cand.lemma[2]}` : res.shoresh
+              };
+              break;
             }
           }
         }

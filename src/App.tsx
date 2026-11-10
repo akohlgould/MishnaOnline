@@ -1,16 +1,17 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, lazy, Suspense } from 'react';
 import { TractateInfo, ChapterData, WordData, ThemeMode, HebrewFont } from './types';
 import { SefariaService } from './services/sefariaService';
 import { PRELOADED_BERAKHOT_1 } from './data/preloadedChapters';
 import { Header } from './components/Header';
 import { MishnahReader } from './components/MishnahReader';
 import { WordInspector } from './components/WordInspector';
-import { TractateSelectorModal } from './components/TractateSelectorModal';
-import { FullTranslationPanel } from './components/FullTranslationPanel';
 import { ChapterBar } from './components/ChapterBar';
 import { BrandLogo } from './components/BrandLogo';
 import { Loader2 } from 'lucide-react';
-import { toHebrewNumeral } from './utils/mishnaParser';
+import { toHebrewNumeral } from './utils/hebrewNumerals';
+
+const TractateSelectorModal = lazy(() => import('./components/TractateSelectorModal').then(m => ({ default: m.TractateSelectorModal })));
+const FullTranslationPanel = lazy(() => import('./components/FullTranslationPanel').then(m => ({ default: m.FullTranslationPanel })));
 
 export function App() {
   // Navigation State
@@ -242,24 +243,32 @@ export function App() {
       />
 
       {/* Side Panel: Full Sefaria Translation */}
-      <FullTranslationPanel
-        isOpen={showFullTranslation}
-        onClose={() => setShowFullTranslation(false)}
-        tractate={currentTractate}
-        chapter={currentChapter}
-        mishnayot={chapterData.mishnayot}
-        selectedMishnahNum={selectedMishnahForTrans}
-        onSelectMishnah={(num) => handleScrollToMishnah(num)}
-      />
+      {showFullTranslation && (
+        <Suspense fallback={null}>
+          <FullTranslationPanel
+            isOpen={showFullTranslation}
+            onClose={() => setShowFullTranslation(false)}
+            tractate={currentTractate}
+            chapter={currentChapter}
+            mishnayot={chapterData.mishnayot}
+            selectedMishnahNum={selectedMishnahForTrans}
+            onSelectMishnah={(num) => handleScrollToMishnah(num)}
+          />
+        </Suspense>
+      )}
 
       {/* Shas Tractate Selector Modal */}
-      <TractateSelectorModal
-        isOpen={isTractateModalOpen}
-        onClose={() => setIsTractateModalOpen(false)}
-        currentTractate={currentTractate}
-        currentChapter={currentChapter}
-        onSelect={handleSelectTractateAndChapter}
-      />
+      {isTractateModalOpen && (
+        <Suspense fallback={null}>
+          <TractateSelectorModal
+            isOpen={isTractateModalOpen}
+            onClose={() => setIsTractateModalOpen(false)}
+            currentTractate={currentTractate}
+            currentChapter={currentChapter}
+            onSelect={handleSelectTractateAndChapter}
+          />
+        </Suspense>
+      )}
 
       {/* Footer */}
       <footer className="mt-auto py-12 border-t border-stone-200/70 dark:border-stone-800 text-xs text-stone-500 dark:text-stone-400">

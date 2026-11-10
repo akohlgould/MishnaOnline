@@ -108,9 +108,9 @@ export const MishnahReader: React.FC<MishnahReaderProps> = ({
                     <span
                       dir="ltr"
                       className="text-[11px] font-sans font-normal text-stone-500 dark:text-stone-400 leading-none mt-1 select-none text-center max-w-[100px] truncate"
-                      title={word.translation}
+                      title={word.translation?.startsWith('[') ? 'Tap to view contextual definition' : word.translation}
                     >
-                      {word.translation}
+                      {word.translation?.startsWith('[') ? '—' : word.translation}
                     </span>
                   )}
                 </span>

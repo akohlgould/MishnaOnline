@@ -1,7 +1,7 @@
 import React from 'react';
 import { TractateInfo, MishnahData } from '../types';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { toHebrewNumeral } from '../utils/mishnaParser';
+import { toHebrewNumeral } from '../utils/hebrewNumerals';
 
 interface ChapterBarProps {
   tractate: TractateInfo;

@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { TractateInfo } from '../types';
 import { SefariaService } from '../services/sefariaService';
 import { Search, X, Layers } from 'lucide-react';
-import { toHebrewNumeral } from '../utils/mishnaParser';
+import { toHebrewNumeral } from '../utils/hebrewNumerals';
 
 interface TractateSelectorModalProps {
   isOpen: boolean;

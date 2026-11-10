@@ -12,7 +12,7 @@ import {
   Type,
   ExternalLink
 } from 'lucide-react';
-import { toHebrewNumeral } from '../utils/mishnaParser';
+import { toHebrewNumeral } from '../utils/hebrewNumerals';
 
 interface HeaderProps {
   currentTractate: TractateInfo;
