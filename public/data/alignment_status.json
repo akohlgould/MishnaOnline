@@ -1,13 +1,15 @@
 {
   "isRunning": true,
-  "currentTractate": "Sotah",
-  "currentChapter": 9,
+  "currentTractate": "Kilayim",
+  "currentChapter": 3,
   "totalChaptersInTractate": 9,
-  "currentMishnah": 1,
-  "totalMishnayotInChapter": 1,
-  "statusText": "Aligning Sotah Chapter 9/9 [Turbo Mode]",
-  "chaptersCompleted": 231,
+  "currentMishnah": 6,
+  "totalMishnayotInChapter": 7,
+  "statusText": "Aligning Kilayim 3:6 (68 words)",
+  "chaptersCompleted": 235,
   "totalChapters": 525,
-  "percent": 44.0,
-  "lastUpdated": 1794352280071
+  "mishnayotCompleted": 1923,
+  "wordsAligned": 81320,
+  "percent": 44.8,
+  "lastUpdated": 1794361788955
 }
