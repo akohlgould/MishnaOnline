@@ -26,3 +26,7 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
+
+# Local alignment tracker status
+public/data/alignment_status.json
+dist/data/alignment_status.json
