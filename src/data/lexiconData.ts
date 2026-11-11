@@ -9579,10 +9579,93 @@ export const MISHNA_LEXICON: Record<string, LexiconEntry> = {
     "grammar": {
       "pos": "Noun (Construct Plural)"
     }
+  },
+  "משיבחילו": {
+    "translation": "from the time they begin to ripen",
+    "shoresh": "ב - ח - ל",
+    "transliteration": "mi-she-yav-chi-lu",
+    "grammar": {
+      "pos": "Prefix + Verb (Hif'il)",
+      "binyan": "Hif'il",
+      "tense": "Imperfect / Future",
+      "number": "Plural",
+      "notes": "Agricultural ripening stage making produce liable for tithes (Ma'asrot 1:2)."
+    }
+  },
+  "יבחילו": {
+    "translation": "they begin to ripen",
+    "shoresh": "ב - ח - ל",
+    "transliteration": "yav-chi-lu",
+    "grammar": {
+      "pos": "Verb (Hif'il)",
+      "binyan": "Hif'il",
+      "tense": "Imperfect / Future",
+      "number": "Plural",
+      "notes": "To reach the initial ripening stage of figs/fruits."
+    }
+  },
+  "הבחיל": {
+    "translation": "began to ripen",
+    "shoresh": "ב - ח - ל",
+    "transliteration": "hiv-chil",
+    "grammar": {
+      "pos": "Verb (Hif'il)",
+      "binyan": "Hif'il",
+      "tense": "Past",
+      "gender": "M",
+      "number": "Singular",
+      "notes": "Agricultural ripening stage."
+    }
+  },
+  "הבחירו": {
+    "translation": "they began to ripen / early ripening",
+    "shoresh": "ב - כ - ר",
+    "transliteration": "hiv-chi-ru",
+    "grammar": {
+      "pos": "Verb (Hif'il)",
+      "binyan": "Hif'il",
+      "tense": "Past",
+      "number": "Plural"
+    }
+  },
+  "משיגריסו": {
+    "translation": "from the time they reach split-bean size",
+    "shoresh": "ג - ר - ס",
+    "transliteration": "mi-she-yag-ri-su",
+    "grammar": {
+      "pos": "Prefix + Verb (Hif'il)",
+      "binyan": "Hif'il",
+      "notes": "Stage of grape/olive ripening (size of a split bean, g'ris)."
+    }
+  },
+  "חנטו": {
+    "translation": "they began to form / set fruit",
+    "shoresh": "ח - נ - ט",
+    "transliteration": "chan-tu",
+    "grammar": {
+      "pos": "Verb (Pa'al)",
+      "tense": "Past",
+      "number": "Plural",
+      "notes": "Chanatah - the budding/forming of fruit on a tree."
+    }
+  },
+  "חנטה": {
+    "translation": "budding / fruit formation stage",
+    "shoresh": "ח - נ - ט",
+    "transliteration": "cha-na-tah",
+    "grammar": {
+      "pos": "Noun",
+      "gender": "F",
+      "number": "Singular"
+    }
   }
 };
 
 export const COMMON_MISHNA_ROOTS: Record<string, string> = {
+  "בחל": "to begin to ripen / reach ripening stage (hivchil)",
+  "חנט": "to bud / set fruit (chanatah)",
+  "פאה": "to leave a corner of the field (pe'ah)",
+  "כלא": "to withhold / mix diverse species (kil'ayim)",
   "אבד": "to lose / perish / destroy",
   "אבה": "to consent / desire",
   "אבל": "to mourn",

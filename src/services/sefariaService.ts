@@ -12,7 +12,7 @@ try {
     const keysToRemove: string[] = [];
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i);
-      if (k && k.startsWith('mishna_') && !k.startsWith('mishna_v4_')) {
+      if (k && k.startsWith('mishna_') && !k.startsWith('mishna_v5_')) {
         keysToRemove.push(k);
       }
     }
@@ -172,7 +172,7 @@ export class SefariaService {
    */
   static async fetchChapter(tractateSlug: string, chapter: number): Promise<ChapterData> {
     const cacheKey = `${tractateSlug}_${chapter}`;
-    const storageKey = `mishna_v4_${cacheKey}`;
+    const storageKey = `mishna_v5_${cacheKey}`;
 
     // 1. Check in-memory cache
     if (CHAPTER_CACHE.has(cacheKey)) {
@@ -181,18 +181,25 @@ export class SefariaService {
 
     // 2. Check static pre-aligned AI datasets FIRST in /data/tractates/{slug}.json
     try {
-      const cleanSlug = tractateSlug.toLowerCase().replace(/^mishnah_/, 'mishnah_');
-      const staticUrl = `/data/tractates/${cleanSlug}.json`;
-      const staticRes = await fetch(staticUrl);
-      if (staticRes.ok) {
-        const tractateMap = await staticRes.json();
-        const chapterEntry = tractateMap[String(chapter)];
-        if (chapterEntry && chapterEntry.mishnayot && chapterEntry.mishnayot.length > 0) {
-          CHAPTER_CACHE.set(cacheKey, chapterEntry);
-          try {
-            localStorage.setItem(storageKey, JSON.stringify(chapterEntry));
-          } catch {}
-          return chapterEntry;
+      const lower = tractateSlug.toLowerCase();
+      const candidateSlugs = [
+        lower.startsWith('mishnah_') ? lower : `mishnah_${lower}`,
+        lower.replace(/^mishnah_/, '')
+      ];
+
+      for (const slug of candidateSlugs) {
+        const staticUrl = `/data/tractates/${slug}.json`;
+        const staticRes = await fetch(staticUrl, { cache: 'no-cache' });
+        if (staticRes.ok) {
+          const tractateMap = await staticRes.json();
+          const chapterEntry = tractateMap[String(chapter)];
+          if (chapterEntry && chapterEntry.mishnayot && chapterEntry.mishnayot.length > 0) {
+            CHAPTER_CACHE.set(cacheKey, chapterEntry);
+            try {
+              localStorage.setItem(storageKey, JSON.stringify(chapterEntry));
+            } catch {}
+            return chapterEntry;
+          }
         }
       }
     } catch {
@@ -204,8 +211,15 @@ export class SefariaService {
       const stored = localStorage.getItem(storageKey);
       if (stored) {
         const parsed = JSON.parse(stored) as ChapterData;
-        CHAPTER_CACHE.set(cacheKey, parsed);
-        return parsed;
+        const hasCorruptedFallback = parsed.mishnayot?.some(m =>
+          m.words?.some(w => w.grammar?.pos === 'Proper Noun / Rabbinic Term' && w.shoresh === '—')
+        );
+        if (!hasCorruptedFallback) {
+          CHAPTER_CACHE.set(cacheKey, parsed);
+          return parsed;
+        } else {
+          localStorage.removeItem(storageKey);
+        }
       }
     } catch {
       // Ignore localStorage errors
