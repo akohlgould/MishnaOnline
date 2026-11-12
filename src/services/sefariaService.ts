@@ -4,6 +4,7 @@ import { PRELOADED_CHAPTERS } from '../data/preloadedChapters';
 import { parseMishnah, cleanHebrewLetters } from '../utils/mishnaParser';
 
 const CHAPTER_CACHE = new Map<string, ChapterData>();
+const TRACTATE_MAP_CACHE = new Map<string, Record<string, ChapterData>>();
 const DYNAMIC_WORD_CACHE = new Map<string, WordData>();
 
 // Purge legacy corrupted/bracketed chapter caches from localStorage
@@ -168,33 +169,72 @@ export class SefariaService {
   }
 
   /**
+   * Remember last studied tractate and chapter across sessions
+   */
+  static getLastStudied(): { slug: string; chapter: number } | null {
+    try {
+      const stored = localStorage.getItem('mishnah_last_studied');
+      return stored ? JSON.parse(stored) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  static setLastStudied(slug: string, chapter: number) {
+    try {
+      localStorage.setItem('mishnah_last_studied', JSON.stringify({ slug, chapter }));
+    } catch {}
+  }
+
+  /**
    * Fetch chapter text from Sefaria API or cache, and parse word-by-word
    */
   static async fetchChapter(tractateSlug: string, chapter: number): Promise<ChapterData> {
     const cacheKey = `${tractateSlug}_${chapter}`;
     const storageKey = `mishna_v5_${cacheKey}`;
 
-    // 1. Check in-memory cache
+    // 1. Check in-memory chapter cache
     if (CHAPTER_CACHE.has(cacheKey)) {
+      this.setLastStudied(tractateSlug, chapter);
       return CHAPTER_CACHE.get(cacheKey)!;
     }
 
-    // 2. Check static pre-aligned AI datasets FIRST in /data/tractates/{slug}.json
-    try {
-      const lower = tractateSlug.toLowerCase();
-      const candidateSlugs = [
-        lower.startsWith('mishnah_') ? lower : `mishnah_${lower}`,
-        lower.replace(/^mishnah_/, '')
-      ];
+    const lower = tractateSlug.toLowerCase();
+    const candidateSlugs = [
+      lower.startsWith('mishnah_') ? lower : `mishnah_${lower}`,
+      lower.replace(/^mishnah_/, '')
+    ];
 
+    // 2. Check in-memory full tractate map cache
+    for (const slug of candidateSlugs) {
+      if (TRACTATE_MAP_CACHE.has(slug)) {
+        const tractateMap = TRACTATE_MAP_CACHE.get(slug)!;
+        const chapterEntry = tractateMap[String(chapter)];
+        if (chapterEntry && chapterEntry.mishnayot && chapterEntry.mishnayot.length > 0) {
+          CHAPTER_CACHE.set(cacheKey, chapterEntry);
+          this.setLastStudied(tractateSlug, chapter);
+          return chapterEntry;
+        }
+      }
+    }
+
+    // 3. Check static pre-aligned AI datasets FIRST in /data/tractates/{slug}.json
+    try {
       for (const slug of candidateSlugs) {
         const staticUrl = `/data/tractates/${slug}.json`;
-        const staticRes = await fetch(staticUrl, { cache: 'no-cache' });
+        const staticRes = await fetch(staticUrl);
         if (staticRes.ok) {
           const tractateMap = await staticRes.json();
+          TRACTATE_MAP_CACHE.set(slug, tractateMap);
+          // Pre-populate all chapters of this tractate into memory cache for instantaneous subsequent chapter changes
+          for (const [chNum, chEntry] of Object.entries(tractateMap)) {
+            if (chEntry && (chEntry as ChapterData).mishnayot) {
+              CHAPTER_CACHE.set(`${tractateSlug}_${chNum}`, chEntry as ChapterData);
+            }
+          }
           const chapterEntry = tractateMap[String(chapter)];
           if (chapterEntry && chapterEntry.mishnayot && chapterEntry.mishnayot.length > 0) {
-            CHAPTER_CACHE.set(cacheKey, chapterEntry);
+            this.setLastStudied(tractateSlug, chapter);
             try {
               localStorage.setItem(storageKey, JSON.stringify(chapterEntry));
             } catch {}

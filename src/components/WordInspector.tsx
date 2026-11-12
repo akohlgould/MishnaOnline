@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { WordData, MishnahData } from '../types';
 import { SefariaService } from '../services/sefariaService';
-import { Volume2, ChevronLeft, ChevronRight, X, BookOpen, ExternalLink, Loader2 } from 'lucide-react';
+import { Volume2, ChevronLeft, ChevronRight, X, BookOpen, ExternalLink, Loader2, Sparkles } from 'lucide-react';
 
 interface WordInspectorProps {
   word: WordData | null;
@@ -12,6 +12,7 @@ interface WordInspectorProps {
   hasPrevWord?: boolean;
   onWordUpdated?: (updatedWord: WordData) => void;
   mishnah?: MishnahData | null;
+  onExploreRoot?: (root: string) => void;
 }
 
 export const WordInspector: React.FC<WordInspectorProps> = ({
@@ -22,7 +23,8 @@ export const WordInspector: React.FC<WordInspectorProps> = ({
   hasNextWord = false,
   hasPrevWord = false,
   onWordUpdated,
-  mishnah
+  mishnah,
+  onExploreRoot
 }) => {
   const [displayWord, setDisplayWord] = useState<WordData | null>(word);
   const [isResolving, setIsResolving] = useState(false);
@@ -205,20 +207,32 @@ export const WordInspector: React.FC<WordInspectorProps> = ({
 
         {/* Root / Shoresh */}
         {activeWord.shoresh && activeWord.shoresh !== '—' && (
-          <div className="pb-3 border-b border-stone-100 dark:border-stone-800/80">
-            <span className="text-[10px] uppercase tracking-wider text-stone-400 font-medium block mb-1">
-              Root (Shoresh)
-            </span>
-            <div className="flex items-baseline gap-2">
-              <span dir="rtl" className="font-serifHe font-bold text-lg text-stone-900 dark:text-stone-100">
-                {activeWord.shoresh}
+          <div className="pb-3 border-b border-stone-100 dark:border-stone-800/80 flex items-center justify-between">
+            <div>
+              <span className="text-[10px] uppercase tracking-wider text-stone-400 font-medium block mb-1">
+                Root (Shoresh)
               </span>
-              {grammar?.shoreshMeaning && (
-                <span className="text-stone-500 dark:text-stone-400 text-xs">
-                  — &ldquo;{grammar.shoreshMeaning}&rdquo;
+              <div className="flex items-baseline gap-2">
+                <span dir="rtl" className="font-serifHe font-bold text-lg text-stone-900 dark:text-stone-100">
+                  {activeWord.shoresh}
                 </span>
-              )}
+                {grammar?.shoreshMeaning && (
+                  <span className="text-stone-500 dark:text-stone-400 text-xs">
+                    — &ldquo;{grammar.shoreshMeaning}&rdquo;
+                  </span>
+                )}
+              </div>
             </div>
+            {onExploreRoot && (
+              <button
+                onClick={() => onExploreRoot(activeWord.shoresh)}
+                className="px-2 py-1 rounded-lg text-xs font-medium text-amber-700 bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 dark:text-amber-300 dark:hover:bg-amber-900/60 transition-colors flex items-center gap-1.5 shrink-0"
+                title="Search this root across all 63 tractates"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Explore Shas</span>
+              </button>
+            )}
           </div>
         )}
 

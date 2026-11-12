@@ -10,7 +10,9 @@ import {
   PanelRightClose,
   PanelRightOpen,
   Type,
-  ExternalLink
+  ExternalLink,
+  Search,
+  Bookmark
 } from 'lucide-react';
 import { toHebrewNumeral } from '../utils/hebrewNumerals';
 
@@ -19,6 +21,8 @@ interface HeaderProps {
   currentChapter: number;
   onSelectChapter: (chapter: number) => void;
   onOpenTractateModal: () => void;
+  onOpenSearch: () => void;
+  onOpenBookmarks: () => void;
   showInterlinear: boolean;
   onToggleInterlinear: () => void;
   showFullTranslation: boolean;
@@ -36,6 +40,8 @@ export const Header: React.FC<HeaderProps> = ({
   currentChapter,
   onSelectChapter,
   onOpenTractateModal,
+  onOpenSearch,
+  onOpenBookmarks,
   showInterlinear,
   onToggleInterlinear,
   showFullTranslation,
@@ -94,8 +100,32 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* Right: Reading Controls */}
-        <div className="flex items-center gap-1 sm:gap-1.5">
+        {/* Center/Right: Search & Reading Controls */}
+        <div className="flex items-center gap-1 sm:gap-2">
+          {/* Global Search & Shoresh Explorer */}
+          <button
+            onClick={onOpenSearch}
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-stone-200 dark:border-stone-700 bg-stone-50/80 dark:bg-stone-800/60 hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-300 transition-colors text-xs font-medium"
+            title="Search all 63 tractates (Cmd+K or /)"
+          >
+            <Search className="w-3.5 h-3.5 text-amber-600 dark:text-amber-500" />
+            <span className="hidden sm:inline">Search</span>
+            <kbd className="hidden md:inline text-[10px] px-1 py-0.2 rounded bg-stone-200/60 dark:bg-stone-700 font-mono text-stone-400">
+              ⌘K
+            </kbd>
+          </button>
+
+          {/* Bookmarks Quick Access */}
+          <button
+            onClick={onOpenBookmarks}
+            className="p-1.5 rounded-md text-stone-500 hover:text-amber-600 hover:bg-stone-100 dark:text-stone-400 dark:hover:text-amber-400 dark:hover:bg-stone-800 transition-colors"
+            title="View saved bookmarks"
+          >
+            <Bookmark className="w-3.5 h-3.5" />
+          </button>
+
+          <div className="h-4 w-px bg-stone-200 dark:bg-stone-700 hidden sm:block" />
+
           {/* Interlinear Mode Toggle */}
           <button
             onClick={onToggleInterlinear}

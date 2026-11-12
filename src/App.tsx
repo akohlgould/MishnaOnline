@@ -12,6 +12,7 @@ import { toHebrewNumeral } from './utils/hebrewNumerals';
 
 const TractateSelectorModal = lazy(() => import('./components/TractateSelectorModal').then(m => ({ default: m.TractateSelectorModal })));
 const FullTranslationPanel = lazy(() => import('./components/FullTranslationPanel').then(m => ({ default: m.FullTranslationPanel })));
+const ShasSearchModal = lazy(() => import('./components/ShasSearchModal').then(m => ({ default: m.ShasSearchModal })));
 
 export function App() {
   // Navigation State
@@ -20,6 +21,11 @@ export function App() {
   const [chapterData, setChapterData] = useState<ChapterData>(PRELOADED_BERAKHOT_1);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Search & Explorer Modal State
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState<boolean>(false);
+  const [searchInitialQuery, setSearchInitialQuery] = useState<string>('');
+  const [searchInitialMode, setSearchInitialMode] = useState<'search' | 'root' | 'bookmarks'>('search');
 
   // Word Interaction State
   const [selectedWord, setSelectedWord] = useState<WordData | null>(null);
@@ -45,6 +51,28 @@ export function App() {
     }
   }, [theme]);
 
+  // Global search shortcut (Cmd+K / Ctrl+K or /)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setSearchInitialQuery('');
+        setSearchInitialMode('search');
+        setIsSearchModalOpen((prev) => !prev);
+      } else if (
+        e.key === '/' &&
+        !['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement).tagName)
+      ) {
+        e.preventDefault();
+        setSearchInitialQuery('');
+        setSearchInitialMode('search');
+        setIsSearchModalOpen(true);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   // Load Chapter Data from Sefaria or Cache
   const loadChapter = useCallback(async (tractate: TractateInfo, chapter: number) => {
     setLoading(true);
@@ -63,6 +91,20 @@ export function App() {
       setLoading(false);
     }
   }, []);
+
+  // Restore last studied chapter across browser sessions
+  useEffect(() => {
+    const last = SefariaService.getLastStudied();
+    if (last && last.slug && last.chapter) {
+      const tractate = SefariaService.getTractate(last.slug);
+      if (
+        tractate &&
+        (tractate.slug !== PRELOADED_BERAKHOT_1.tractate.slug || last.chapter !== 1)
+      ) {
+        loadChapter(tractate, last.chapter);
+      }
+    }
+  }, [loadChapter]);
 
   const handleSelectChapter = (ch: number) => {
     loadChapter(currentTractate, ch);
@@ -140,6 +182,40 @@ export function App() {
     }, 100);
   };
 
+  const handleSelectMishnahFromSearch = (
+    tractateSlug: string,
+    chapter: number,
+    mishnahNum: number
+  ) => {
+    const tractate = SefariaService.getTractate(tractateSlug);
+    if (tractate) {
+      loadChapter(tractate, chapter).then(() => {
+        setTimeout(() => {
+          handleScrollToMishnah(mishnahNum);
+        }, 150);
+      });
+    }
+  };
+
+  const handleExploreRoot = (root: string) => {
+    const cleanRoot = root.replace(/[\s\-–—]/g, '');
+    setSearchInitialQuery(cleanRoot);
+    setSearchInitialMode('root');
+    setIsSearchModalOpen(true);
+  };
+
+  const handleOpenSearch = () => {
+    setSearchInitialQuery('');
+    setSearchInitialMode('search');
+    setIsSearchModalOpen(true);
+  };
+
+  const handleOpenBookmarks = () => {
+    setSearchInitialQuery('');
+    setSearchInitialMode('bookmarks');
+    setIsSearchModalOpen(true);
+  };
+
   const themeContainerClass =
     theme === 'dark'
       ? 'bg-[#181a1b] text-stone-100'
@@ -155,6 +231,8 @@ export function App() {
         currentChapter={currentChapter}
         onSelectChapter={handleSelectChapter}
         onOpenTractateModal={() => setIsTractateModalOpen(true)}
+        onOpenSearch={handleOpenSearch}
+        onOpenBookmarks={handleOpenBookmarks}
         showInterlinear={showInterlinear}
         onToggleInterlinear={() => setShowInterlinear(!showInterlinear)}
         showFullTranslation={showFullTranslation}
@@ -209,6 +287,8 @@ export function App() {
         {!loading && !error && (
           <>
             <MishnahReader
+              tractate={currentTractate}
+              chapter={currentChapter}
               mishnayot={chapterData.mishnayot}
               selectedWord={selectedWord}
               onSelectWord={setSelectedWord}
@@ -216,6 +296,7 @@ export function App() {
               fontSize={fontSize}
               hebrewFont={hebrewFont}
               onOpenFullTranslationForMishnah={handleOpenFullTranslationForMishnah}
+              onOpenSearchRoot={handleExploreRoot}
             />
 
             {/* Chapter Navigator Bar */}
@@ -240,6 +321,7 @@ export function App() {
         hasPrevWord={currentWordIndex > 0}
         onWordUpdated={handleWordUpdated}
         mishnah={selectedMishnah}
+        onExploreRoot={handleExploreRoot}
       />
 
       {/* Side Panel: Full Sefaria Translation */}
@@ -266,6 +348,19 @@ export function App() {
             currentTractate={currentTractate}
             currentChapter={currentChapter}
             onSelect={handleSelectTractateAndChapter}
+          />
+        </Suspense>
+      )}
+
+      {/* Global Search & Shoresh (Root) Explorer Modal */}
+      {isSearchModalOpen && (
+        <Suspense fallback={null}>
+          <ShasSearchModal
+            isOpen={isSearchModalOpen}
+            onClose={() => setIsSearchModalOpen(false)}
+            onSelectMishnah={handleSelectMishnahFromSearch}
+            initialQuery={searchInitialQuery}
+            initialMode={searchInitialMode}
           />
         </Suspense>
       )}
