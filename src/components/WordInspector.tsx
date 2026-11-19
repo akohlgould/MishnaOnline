@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { WordData, MishnahData } from '../types';
+import { WordData } from '../types';
 import { SefariaService } from '../services/sefariaService';
 import { Volume2, ChevronLeft, ChevronRight, X, BookOpen, ExternalLink, Loader2, Sparkles } from 'lucide-react';
 
@@ -11,7 +11,6 @@ interface WordInspectorProps {
   hasNextWord?: boolean;
   hasPrevWord?: boolean;
   onWordUpdated?: (updatedWord: WordData) => void;
-  mishnah?: MishnahData | null;
   onExploreRoot?: (root: string) => void;
 }
 
@@ -23,7 +22,6 @@ export const WordInspector: React.FC<WordInspectorProps> = ({
   hasNextWord = false,
   hasPrevWord = false,
   onWordUpdated,
-  mishnah,
   onExploreRoot
 }) => {
   const [displayWord, setDisplayWord] = useState<WordData | null>(word);
@@ -293,19 +291,6 @@ export const WordInspector: React.FC<WordInspectorProps> = ({
             </div>
           )}
         </div>
-
-        {/* Mishnah Context */}
-        {mishnah && mishnah.englishFull && (
-          <div className="pt-2 border-t border-stone-100 dark:border-stone-800/80 text-xs">
-            <span className="text-[10px] uppercase tracking-wider text-stone-400 font-medium block mb-1">
-              Context ({mishnah.enRef})
-            </span>
-            <div
-              className="text-stone-600 dark:text-stone-400 leading-relaxed italic max-h-24 overflow-y-auto"
-              dangerouslySetInnerHTML={{ __html: mishnah.englishFull }}
-            />
-          </div>
-        )}
 
         {/* Deep Lexicon / Sefaria Jastrow Expandable Accordion */}
         <div className="pt-2 border-t border-slate-100 dark:border-slate-800">

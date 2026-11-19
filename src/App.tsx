@@ -126,11 +126,6 @@ export function App() {
     return allChapterWords.findIndex(w => w.id === selectedWord.id);
   }, [selectedWord, allChapterWords]);
 
-  const selectedMishnah = useMemo(() => {
-    if (!selectedWord) return null;
-    return chapterData.mishnayot.find((m) => m.words.some((w) => w.id === selectedWord.id)) || null;
-  }, [selectedWord, chapterData]);
-
   const handleNextWord = () => {
     if (currentWordIndex >= 0 && currentWordIndex < allChapterWords.length - 1) {
       setSelectedWord(allChapterWords[currentWordIndex + 1]);
@@ -320,7 +315,6 @@ export function App() {
         hasNextWord={currentWordIndex < allChapterWords.length - 1}
         hasPrevWord={currentWordIndex > 0}
         onWordUpdated={handleWordUpdated}
-        mishnah={selectedMishnah}
         onExploreRoot={handleExploreRoot}
       />
 
