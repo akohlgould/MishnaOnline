@@ -243,7 +243,12 @@ export const MishnahReader: React.FC<MishnahReaderProps> = ({
 
                       <button
                         onClick={() => {
-                          const url = `https://mishnah.online#${tractate?.slug}_${chapter}_${mishnah.number}`;
+                          const cleanSlug =
+                            tractate?.shortTitle
+                              .toLowerCase()
+                              .replace(/\s+/g, '-')
+                              .replace(/[^a-z0-9-]/g, '') || 'berakhot';
+                          const url = `${window.location.origin}/${cleanSlug}/${chapter}/${mishnah.number}`;
                           handleCopy(url, `m_${mishnah.number}_link`);
                         }}
                         className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-500 flex items-center gap-1.5 border-t border-stone-100 dark:border-stone-800"

@@ -157,14 +157,99 @@ export class SefariaService {
   }
 
   /**
-   * Find tractate by its slug or title
+   * Find tractate by slug, title, shortTitle, alias, or fuzzy query (e.g. 'pesach' -> 'Pesachim')
    */
-  static getTractate(slug: string): TractateInfo | undefined {
+  static getTractate(query: string): TractateInfo | undefined {
+    if (!query) return undefined;
     const seders = this.getSeders();
+    const qLower = query.toLowerCase().trim();
+
+    // 1. Exact match by slug, title, or shortTitle
     for (const seder of seders) {
-      const found = seder.tractates.find(t => t.slug === slug || t.title === slug);
+      const found = seder.tractates.find(
+        (t) =>
+          t.slug.toLowerCase() === qLower ||
+          t.title.toLowerCase() === qLower ||
+          t.shortTitle.toLowerCase() === qLower
+      );
       if (found) return found;
     }
+
+    // 2. Normalized match (strip 'mishnah', 'pirkei', punctuation, whitespace)
+    const clean = (s: string) =>
+      s
+        .toLowerCase()
+        .replace(/^(mishnah|pirkei)[_\s-]?/, '')
+        .replace(/[^a-z0-9]/g, '');
+    const qClean = clean(query);
+
+    // 2b. Well-known tractate aliases and colloquial names
+    const ALIASES: Record<string, string> = {
+      pesach: 'Pesachim',
+      pesachim: 'Pesachim',
+      brachot: 'Berakhot',
+      berachot: 'Berakhot',
+      shabbos: 'Shabbat',
+      avot: 'Pirkei Avot',
+      pirkeiavot: 'Pirkei Avot',
+      bk: 'Bava Kamma',
+      bm: 'Bava Metzia',
+      bb: 'Bava Batra',
+      bavakama: 'Bava Kamma',
+      bavametzia: 'Bava Metzia',
+      bavametziah: 'Bava Metzia',
+      bavabashra: 'Bava Batra',
+      az: 'Avodah Zarah',
+      rh: 'Rosh Hashanah',
+      roshhashana: 'Rosh Hashanah',
+      moedkatan: 'Moed Katan',
+      taanis: 'Ta\'anit',
+      taanit: 'Ta\'anit',
+      beitzah: 'Beitzah',
+      beitza: 'Beitzah',
+      betza: 'Beitzah',
+      sukah: 'Sukkah',
+      makkos: 'Makkot',
+      shevuos: 'Shevuot',
+      sheviis: 'Sheviit',
+      orla: 'Orlah',
+      challa: 'Challah',
+      mikvah: 'Mikvaot',
+      mikvaos: 'Mikvaot',
+      uktzin: 'Oktzin',
+      octzin: 'Oktzin',
+      keilim: 'Kelim',
+      ohalot: 'Oholot',
+      nidah: 'Niddah',
+    };
+
+    if (ALIASES[qClean]) {
+      const aliasTarget = ALIASES[qClean];
+      for (const seder of seders) {
+        const found = seder.tractates.find(
+          (t) => t.shortTitle.toLowerCase() === aliasTarget.toLowerCase()
+        );
+        if (found) return found;
+      }
+    }
+
+    for (const seder of seders) {
+      for (const t of seder.tractates) {
+        const tClean = clean(t.shortTitle);
+        if (tClean === qClean) return t;
+      }
+    }
+
+    // 3. Prefix/fuzzy match (e.g. 'pesach' matching 'pesachim')
+    for (const seder of seders) {
+      for (const t of seder.tractates) {
+        const tClean = clean(t.shortTitle);
+        if (tClean.startsWith(qClean) || (qClean.length >= 3 && qClean.startsWith(tClean))) {
+          return t;
+        }
+      }
+    }
+
     return undefined;
   }
 

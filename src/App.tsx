@@ -14,6 +14,72 @@ const TractateSelectorModal = lazy(() => import('./components/TractateSelectorMo
 const FullTranslationPanel = lazy(() => import('./components/FullTranslationPanel').then(m => ({ default: m.FullTranslationPanel })));
 const ShasSearchModal = lazy(() => import('./components/ShasSearchModal').then(m => ({ default: m.ShasSearchModal })));
 
+function tractateToSlug(tractate: TractateInfo): string {
+  return tractate.shortTitle
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '');
+}
+
+function parseUrlPath(): {
+  tractateQuery?: string;
+  chapter?: number;
+  mishnah?: number;
+} {
+  let path = window.location.pathname;
+
+  // Support hash fallback e.g. /#pesachim/5/2 or /#Pesachim_5_2
+  if ((!path || path === '/') && window.location.hash) {
+    const rawHash = window.location.hash.replace(/^#\/?/, '');
+    if (rawHash.includes('_')) {
+      const parts = rawHash.split('_');
+      return {
+        tractateQuery: parts[0],
+        chapter: parts[1] ? parseInt(parts[1], 10) : undefined,
+        mishnah: parts[2] ? parseInt(parts[2], 10) : undefined,
+      };
+    }
+    path = '/' + rawHash;
+  }
+
+  const segments = path.split('/').filter(Boolean);
+  if (segments.length === 0) return {};
+
+  const tractateQuery = segments[0];
+  const chapter = segments[1] ? parseInt(segments[1], 10) : undefined;
+  const mishnah = segments[2] ? parseInt(segments[2], 10) : undefined;
+
+  return {
+    tractateQuery,
+    chapter: Number.isFinite(chapter) && chapter! > 0 ? chapter : undefined,
+    mishnah: Number.isFinite(mishnah) && mishnah! > 0 ? mishnah : undefined,
+  };
+}
+
+function syncUrl(
+  tractate: TractateInfo,
+  chapter: number,
+  mishnah?: number,
+  mode: 'push' | 'replace' | 'none' = 'push'
+) {
+  const slug = tractateToSlug(tractate);
+  const targetPath = `/${slug}/${chapter}${mishnah ? `/${mishnah}` : ''}`;
+  const title = `${tractate.shortTitle} ${chapter}${mishnah ? `:${mishnah}` : ''} · Mishnah.Online`;
+
+  document.title = title;
+
+  if (mode === 'none') return;
+
+  const currentPath = window.location.pathname;
+  if (currentPath === targetPath) return;
+
+  if (mode === 'push') {
+    window.history.pushState({ slug: tractate.slug, chapter, mishnah }, title, targetPath);
+  } else if (mode === 'replace') {
+    window.history.replaceState({ slug: tractate.slug, chapter, mishnah }, title, targetPath);
+  }
+}
+
 export function App() {
   // Navigation State
   const [currentTractate, setCurrentTractate] = useState<TractateInfo>(PRELOADED_BERAKHOT_1.tractate);
@@ -73,45 +139,112 @@ export function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Load Chapter Data from Sefaria or Cache
-  const loadChapter = useCallback(async (tractate: TractateInfo, chapter: number) => {
-    setLoading(true);
-    setError(null);
-    setSelectedWord(null);
-    try {
-      const data = await SefariaService.fetchChapter(tractate.slug, chapter);
-      setChapterData(data);
-      setCurrentTractate(data.tractate);
-      setCurrentChapter(chapter);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } catch (err) {
-      console.error(err);
-      setError('Could not load Mishna chapter from Sefaria. Please check your internet connection.');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  // Load Chapter Data from Sefaria or Cache with URL history sync
+  const loadChapter = useCallback(
+    async (
+      tractate: TractateInfo,
+      chapter: number,
+      options: {
+        targetMishnah?: number;
+        historyMode?: 'push' | 'replace' | 'none';
+        scrollToTop?: boolean;
+      } = {}
+    ) => {
+      const { targetMishnah, historyMode = 'push', scrollToTop = true } = options;
+      setLoading(true);
+      setError(null);
+      setSelectedWord(null);
+      try {
+        const data = await SefariaService.fetchChapter(tractate.slug, chapter);
+        setChapterData(data);
+        setCurrentTractate(data.tractate);
+        setCurrentChapter(chapter);
 
-  // Restore last studied chapter across browser sessions
+        syncUrl(data.tractate, chapter, targetMishnah, historyMode);
+
+        if (targetMishnah) {
+          setTimeout(() => {
+            const el = document.getElementById(`mishnah-${targetMishnah}`);
+            if (el) {
+              el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }, 150);
+        } else if (scrollToTop) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      } catch (err) {
+        console.error(err);
+        setError('Could not load Mishna chapter from Sefaria. Please check your internet connection.');
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
+  // Initial mount: load chapter from URL path or last studied
   useEffect(() => {
+    const parsed = parseUrlPath();
+    if (parsed.tractateQuery) {
+      const tractate = SefariaService.getTractate(parsed.tractateQuery);
+      if (tractate) {
+        const ch = Math.min(Math.max(1, parsed.chapter || 1), tractate.chaptersCount);
+        loadChapter(tractate, ch, {
+          targetMishnah: parsed.mishnah,
+          historyMode: 'replace',
+          scrollToTop: !parsed.mishnah,
+        });
+        return;
+      }
+    }
+
+    // If no valid tractate in URL, check last studied
     const last = SefariaService.getLastStudied();
     if (last && last.slug && last.chapter) {
       const tractate = SefariaService.getTractate(last.slug);
-      if (
-        tractate &&
-        (tractate.slug !== PRELOADED_BERAKHOT_1.tractate.slug || last.chapter !== 1)
-      ) {
-        loadChapter(tractate, last.chapter);
+      if (tractate) {
+        loadChapter(tractate, last.chapter, {
+          historyMode: 'replace',
+        });
+        return;
       }
     }
+
+    // Default to Berakhot 1 and canonicalize URL
+    syncUrl(PRELOADED_BERAKHOT_1.tractate, 1, undefined, 'replace');
+  }, [loadChapter]);
+
+  // Listen for browser Back/Forward navigation
+  useEffect(() => {
+    const handlePopState = () => {
+      const parsed = parseUrlPath();
+      if (parsed.tractateQuery) {
+        const found = SefariaService.getTractate(parsed.tractateQuery);
+        if (found) {
+          const ch = Math.min(Math.max(1, parsed.chapter || 1), found.chaptersCount);
+          loadChapter(found, ch, {
+            targetMishnah: parsed.mishnah,
+            historyMode: 'none',
+            scrollToTop: !parsed.mishnah,
+          });
+          return;
+        }
+      }
+      loadChapter(PRELOADED_BERAKHOT_1.tractate, 1, {
+        historyMode: 'none',
+      });
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
   }, [loadChapter]);
 
   const handleSelectChapter = (ch: number) => {
-    loadChapter(currentTractate, ch);
+    loadChapter(currentTractate, ch, { historyMode: 'push' });
   };
 
   const handleSelectTractateAndChapter = (tractate: TractateInfo, chapter: number) => {
-    loadChapter(tractate, chapter);
+    loadChapter(tractate, chapter, { historyMode: 'push' });
   };
 
   // Flatten all words across all mishnayot in current chapter for step navigation
@@ -163,6 +296,7 @@ export function App() {
     const el = document.getElementById(`mishnah-${num}`);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      syncUrl(currentTractate, currentChapter, num, 'replace');
     }
   };
 
@@ -184,10 +318,10 @@ export function App() {
   ) => {
     const tractate = SefariaService.getTractate(tractateSlug);
     if (tractate) {
-      loadChapter(tractate, chapter).then(() => {
-        setTimeout(() => {
-          handleScrollToMishnah(mishnahNum);
-        }, 150);
+      loadChapter(tractate, chapter, {
+        targetMishnah: mishnahNum,
+        historyMode: 'push',
+        scrollToTop: false,
       });
     }
   };
