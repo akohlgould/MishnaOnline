@@ -2651,13 +2651,13 @@
             "cleanWord": "בַּחֲזֶרֶת",
             "consonants": "בחזרת",
             "punctuation": "",
-            "translation": "with ḥazeret",
+            "translation": "with lettuce",
             "shoresh": "ח - ז - ר",
             "transliteration": "ba-chazeret",
             "grammar": {
               "pos": "Preposition + Noun",
-              "shoreshMeaning": "to return / lettuce",
-              "notes": "Identified as lettuce or bitter herb"
+              "shoreshMeaning": "to return",
+              "notes": "Identified as lettuce (the primary bitter herb on Pesach)"
             }
           },
           {
@@ -51818,13 +51818,13 @@
             "cleanWord": "בַּחֲזֶרֶת",
             "consonants": "בחזרת",
             "punctuation": ",",
-            "translation": "in the ḥazeret",
+            "translation": "in the lettuce",
             "shoresh": "ח - ז - ר",
-            "transliteration": "baḥazeret",
+            "transliteration": "ba-chazeret",
             "grammar": {
               "pos": "preposition בְּ + definite article + noun",
-              "shoreshMeaning": "to return, lettuce/bitter herbs",
-              "notes": null
+              "shoreshMeaning": "to return",
+              "notes": "Identified as lettuce"
             }
           },
           {
@@ -51938,13 +51938,13 @@
             "cleanWord": "וַחֲזֶרֶת",
             "consonants": "וחזרת",
             "punctuation": "",
-            "translation": "and ḥazeret",
+            "translation": "and lettuce",
             "shoresh": "ח - ז - ר",
-            "transliteration": "vaḥazeret",
+            "transliteration": "va-chazeret",
             "grammar": {
               "pos": "conjunction וַ־ + noun",
-              "shoreshMeaning": "lettuce, bitter herbs",
-              "notes": null
+              "shoreshMeaning": "to return",
+              "notes": "Identified as lettuce"
             }
           },
           {

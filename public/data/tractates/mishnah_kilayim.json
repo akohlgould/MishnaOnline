@@ -515,13 +515,13 @@
             "cleanWord": "חֲזֶרֶת",
             "consonants": "חזרת",
             "punctuation": "",
-            "translation": "Lettuce",
+            "translation": "lettuce",
             "shoresh": "ח - ז - ר",
             "transliteration": "chazeret",
             "grammar": {
               "pos": "noun",
-              "shoreshMeaning": "to return / lettuce",
-              "notes": "Garden lettuce."
+              "shoreshMeaning": "to return",
+              "notes": "Garden lettuce (Lactuca sativa)"
             }
           },
           {
@@ -535,8 +535,8 @@
             "transliteration": "va-chazeret",
             "grammar": {
               "pos": "noun",
-              "shoreshMeaning": "to return / lettuce",
-              "notes": "Prefixed with conjunction."
+              "shoreshMeaning": "to return",
+              "notes": "Wild lettuce (Lactuca serriola)"
             }
           },
           {
