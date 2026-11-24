@@ -74,3 +74,11 @@ export interface ChapterData {
 
 export type ThemeMode = 'light' | 'sepia' | 'dark';
 export type HebrewFont = 'frank' | 'david' | 'assistant';
+export type BartenuraLang = 'he' | 'en' | 'both';
+
+export interface BartenuraComment {
+  he: string;
+  en: string;
+}
+
+export type ChapterBartenura = Record<number, BartenuraComment[]>;

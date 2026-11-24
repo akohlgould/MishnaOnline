@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { MishnahData, WordData, HebrewFont, TractateInfo } from '../types';
-import { Volume2, VolumeX, BookOpen, Bookmark, Copy, Check, Share2 } from 'lucide-react';
+import { MishnahData, WordData, HebrewFont, TractateInfo, ChapterBartenura, BartenuraLang } from '../types';
+import { Volume2, VolumeX, BookOpen, Bookmark, Copy, Check, Share2, ScrollText } from 'lucide-react';
+import { BartenuraSection } from './BartenuraSection';
 
 interface MishnahReaderProps {
   tractate?: TractateInfo;
@@ -9,6 +10,15 @@ interface MishnahReaderProps {
   selectedWord: WordData | null;
   onSelectWord: (word: WordData) => void;
   showInterlinear: boolean;
+  showBartenura: boolean;
+  bartenuraData?: ChapterBartenura;
+  bartenuraLoading?: boolean;
+  bartenuraError?: string | null;
+  bartenuraLang: BartenuraLang;
+  onChangeBartenuraLang: (lang: BartenuraLang) => void;
+  expandedBartenuraMishnayot: Record<number, boolean>;
+  onToggleMishnahBartenura: (mishnahNum: number) => void;
+  onRetryBartenura?: () => void;
   fontSize: number;
   hebrewFont: HebrewFont;
   onOpenFullTranslationForMishnah?: (mishnahNum: number) => void;
@@ -22,6 +32,15 @@ export const MishnahReader: React.FC<MishnahReaderProps> = ({
   selectedWord,
   onSelectWord,
   showInterlinear,
+  showBartenura,
+  bartenuraData,
+  bartenuraLoading = false,
+  bartenuraError = null,
+  bartenuraLang,
+  onChangeBartenuraLang,
+  expandedBartenuraMishnayot,
+  onToggleMishnahBartenura,
+  onRetryBartenura,
   fontSize,
   hebrewFont,
   onOpenFullTranslationForMishnah
@@ -133,6 +152,10 @@ export const MishnahReader: React.FC<MishnahReaderProps> = ({
           tractate && bookmarks[`${tractate.slug}_${chapter}_${mishnah.number}`];
         const isMenuOpen = activeMenuId === mishnah.number;
         const isPlaying = playingMishnah === mishnah.number;
+        const isBartenuraVisible =
+          expandedBartenuraMishnayot[mishnah.number] !== undefined
+            ? expandedBartenuraMishnayot[mishnah.number]
+            : showBartenura;
 
         return (
           <article
@@ -260,6 +283,21 @@ export const MishnahReader: React.FC<MishnahReaderProps> = ({
                   )}
                 </div>
 
+                {/* Bartenura Toggle for this Mishnah */}
+                <button
+                  onClick={() => onToggleMishnahBartenura(mishnah.number)}
+                  className={`px-2 py-1 rounded-md transition-colors flex items-center gap-1 ${
+                    isBartenuraVisible
+                      ? 'bg-amber-100 text-amber-900 dark:bg-amber-900/50 dark:text-amber-200 font-semibold'
+                      : 'text-stone-500 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800'
+                  }`}
+                  title={isBartenuraVisible ? 'Hide Bartenura commentary' : 'Show Bartenura commentary'}
+                  aria-pressed={isBartenuraVisible}
+                >
+                  <ScrollText className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Bartenura</span>
+                </button>
+
                 {/* English Side Panel Toggle */}
                 {onOpenFullTranslationForMishnah && (
                   <button
@@ -323,6 +361,22 @@ export const MishnahReader: React.FC<MishnahReaderProps> = ({
                 );
               })}
             </div>
+
+            {/* Bartenura Commentary */}
+            {isBartenuraVisible && (
+              <BartenuraSection
+                mishnahNum={mishnah.number}
+                comments={bartenuraData?.[mishnah.number]}
+                loading={bartenuraLoading}
+                error={bartenuraError}
+                lang={bartenuraLang}
+                onChangeLang={onChangeBartenuraLang}
+                fontClass={fontClass}
+                fontSize={fontSize}
+                onRetry={onRetryBartenura}
+                onClose={() => onToggleMishnahBartenura(mishnah.number)}
+              />
+            )}
           </article>
         );
       })}

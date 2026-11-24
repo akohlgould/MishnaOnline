@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TractateInfo, ThemeMode, HebrewFont } from '../types';
+import { TractateInfo, ThemeMode, HebrewFont, BartenuraLang } from '../types';
 import { BrandLogo } from './BrandLogo';
 import {
   ChevronDown,
@@ -12,7 +12,8 @@ import {
   Type,
   ExternalLink,
   Search,
-  Bookmark
+  Bookmark,
+  ScrollText
 } from 'lucide-react';
 import { toHebrewNumeral } from '../utils/hebrewNumerals';
 
@@ -25,6 +26,10 @@ interface HeaderProps {
   onOpenBookmarks: () => void;
   showInterlinear: boolean;
   onToggleInterlinear: () => void;
+  showBartenura: boolean;
+  onToggleBartenura: () => void;
+  bartenuraLang: BartenuraLang;
+  onChangeBartenuraLang: (lang: BartenuraLang) => void;
   showFullTranslation: boolean;
   onToggleFullTranslation: () => void;
   fontSize: number;
@@ -44,6 +49,10 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenBookmarks,
   showInterlinear,
   onToggleInterlinear,
+  showBartenura,
+  onToggleBartenura,
+  bartenuraLang,
+  onChangeBartenuraLang,
   showFullTranslation,
   onToggleFullTranslation,
   fontSize,
@@ -149,6 +158,21 @@ export const Header: React.FC<HeaderProps> = ({
             )}
           </button>
 
+          {/* Bartenura Commentary Toggle */}
+          <button
+            onClick={onToggleBartenura}
+            className={`flex items-center gap-1.5 px-2 sm:px-2.5 py-1 rounded-md text-xs font-medium transition-colors border ${
+              showBartenura
+                ? 'border-amber-400/80 bg-amber-50 dark:bg-amber-950/40 dark:border-amber-700 text-amber-900 dark:text-amber-200'
+                : 'border-transparent text-stone-500 hover:text-stone-800 hover:bg-stone-100 dark:text-stone-400 dark:hover:text-stone-200 dark:hover:bg-stone-800'
+            }`}
+            title={showBartenura ? 'Hide Bartenura commentary' : 'Show Bartenura commentary'}
+            aria-pressed={showBartenura}
+          >
+            <ScrollText className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Bartenura</span>
+          </button>
+
           {/* Full Translation Panel Toggle */}
           <button
             onClick={onToggleFullTranslation}
@@ -231,6 +255,46 @@ export const Header: React.FC<HeaderProps> = ({
                         }`}
                       >
                         {f.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Bartenura Commentary Option */}
+                <div>
+                  <div className="flex justify-between items-center text-slate-600 dark:text-slate-400 mb-2 font-medium">
+                    <span>Bartenura Commentary</span>
+                    <button
+                      type="button"
+                      onClick={onToggleBartenura}
+                      className={`px-2 py-0.5 rounded-md border text-[11px] font-semibold transition-colors ${
+                        showBartenura
+                          ? 'border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-300'
+                          : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+                      }`}
+                    >
+                      {showBartenura ? 'On' : 'Off'}
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-3 gap-1.5">
+                    {(
+                      [
+                        { id: 'he', label: 'עברית' },
+                        { id: 'en', label: 'English' },
+                        { id: 'both', label: 'Both' }
+                      ] as const
+                    ).map((opt) => (
+                      <button
+                        key={opt.id}
+                        type="button"
+                        onClick={() => onChangeBartenuraLang(opt.id)}
+                        className={`py-1.5 rounded-lg border text-center font-medium transition-colors ${
+                          bartenuraLang === opt.id
+                            ? 'border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-300 font-bold'
+                            : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'
+                        }`}
+                      >
+                        {opt.label}
                       </button>
                     ))}
                   </div>

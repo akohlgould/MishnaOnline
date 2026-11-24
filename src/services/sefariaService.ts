@@ -1,4 +1,4 @@
-import { SederInfo, TractateInfo, ChapterData, MishnahData, WordData } from '../types';
+import { SederInfo, TractateInfo, ChapterData, MishnahData, WordData, ChapterBartenura, BartenuraComment } from '../types';
 import mishnahCatalog from '../data/mishnahCatalog.json';
 import { PRELOADED_CHAPTERS } from '../data/preloadedChapters';
 import { parseMishnah, cleanHebrewLetters } from '../utils/mishnaParser';
@@ -6,6 +6,8 @@ import { parseMishnah, cleanHebrewLetters } from '../utils/mishnaParser';
 const CHAPTER_CACHE = new Map<string, ChapterData>();
 const TRACTATE_MAP_CACHE = new Map<string, Record<string, ChapterData>>();
 const DYNAMIC_WORD_CACHE = new Map<string, WordData>();
+const BARTENURA_CACHE = new Map<string, ChapterBartenura>();
+const BARTENURA_INFLIGHT = new Map<string, Promise<ChapterBartenura>>();
 
 // Purge legacy corrupted/bracketed chapter caches from localStorage
 try {
@@ -630,6 +632,101 @@ export class SefariaService {
     }
 
     return word;
+  }
+
+  /**
+   * Fetch Bartenura commentary for an entire Mishnah chapter from Sefaria API (with memory + localStorage cache)
+   */
+  static async fetchBartenura(
+    tractateSlug: string,
+    chapter: number,
+    mishnahCount?: number
+  ): Promise<ChapterBartenura> {
+    const cacheKey = `${tractateSlug}_${chapter}`;
+    const storageKey = `bartenura_v1_${cacheKey}`;
+
+    if (BARTENURA_CACHE.has(cacheKey)) {
+      return BARTENURA_CACHE.get(cacheKey)!;
+    }
+
+    try {
+      const stored = localStorage.getItem(storageKey);
+      if (stored) {
+        const parsed = JSON.parse(stored) as ChapterBartenura;
+        BARTENURA_CACHE.set(cacheKey, parsed);
+        return parsed;
+      }
+    } catch {
+      // Ignore localStorage errors
+    }
+
+    if (BARTENURA_INFLIGHT.has(cacheKey)) {
+      return BARTENURA_INFLIGHT.get(cacheKey)!;
+    }
+
+    const request = (async () => {
+      const bartenuraBook = `Bartenura_on_${tractateSlug.replace(/'/g, '')}`;
+      const endMishnah = Math.max(2, mishnahCount || 30);
+      const url = `https://www.sefaria.org/api/texts/${encodeURIComponent(bartenuraBook)}.${chapter}.1-${endMishnah}?context=0`;
+
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Sefaria Bartenura API returned status ${response.status}`);
+      }
+      const data = await response.json();
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
+      const normalizeByMishnah = (raw: unknown): string[][] => {
+        if (!Array.isArray(raw) || raw.length === 0) return [];
+        if (typeof raw[0] === 'string') {
+          return [raw as string[]];
+        }
+        return raw.map((item) => {
+          if (Array.isArray(item)) return item.map((s) => (typeof s === 'string' ? s : ''));
+          if (typeof item === 'string' && item) return [item];
+          return [];
+        });
+      };
+
+      const heByMishnah = normalizeByMishnah(data.he);
+      const enByMishnah = normalizeByMishnah(data.text);
+      const totalMishnayot = Math.max(heByMishnah.length, enByMishnah.length);
+
+      const result: ChapterBartenura = {};
+      for (let i = 0; i < totalMishnayot; i++) {
+        const heList = heByMishnah[i] || [];
+        const enList = enByMishnah[i] || [];
+        const commentCount = Math.max(heList.length, enList.length);
+        const comments: BartenuraComment[] = [];
+
+        for (let j = 0; j < commentCount; j++) {
+          const he = (heList[j] || '').trim();
+          const en = (enList[j] || '').trim();
+          if (he || en) {
+            comments.push({ he, en });
+          }
+        }
+        result[i + 1] = comments;
+      }
+
+      BARTENURA_CACHE.set(cacheKey, result);
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(result));
+      } catch {
+        // localStorage might be full
+      }
+
+      return result;
+    })();
+
+    BARTENURA_INFLIGHT.set(cacheKey, request);
+    try {
+      return await request;
+    } finally {
+      BARTENURA_INFLIGHT.delete(cacheKey);
+    }
   }
 }
 

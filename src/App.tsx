@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, lazy, Suspense } from 'react';
-import { TractateInfo, ChapterData, WordData, ThemeMode, HebrewFont } from './types';
+import { TractateInfo, ChapterData, WordData, ThemeMode, HebrewFont, ChapterBartenura, BartenuraLang } from './types';
 import { SefariaService } from './services/sefariaService';
 import { PRELOADED_BERAKHOT_1 } from './data/preloadedChapters';
 import { Header } from './components/Header';
@@ -99,6 +99,24 @@ export function App() {
   // Display & Reading Preferences State
   // Invisible translations by default as requested: "The translations should be invisible but you should be able to view each word's translation by tapping on the word like in sefaria"
   const [showInterlinear, setShowInterlinear] = useState<boolean>(false);
+  const [showBartenura, setShowBartenura] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('mishnah_show_bartenura') === 'true';
+    } catch {
+      return false;
+    }
+  });
+  const [bartenuraLang, setBartenuraLang] = useState<BartenuraLang>(() => {
+    try {
+      const saved = localStorage.getItem('mishnah_bartenura_lang');
+      if (saved === 'he' || saved === 'en' || saved === 'both') return saved;
+    } catch {}
+    return 'he';
+  });
+  const [bartenuraByChapter, setBartenuraByChapter] = useState<Record<string, ChapterBartenura>>({});
+  const [bartenuraLoading, setBartenuraLoading] = useState<boolean>(false);
+  const [bartenuraError, setBartenuraError] = useState<string | null>(null);
+  const [expandedBartenuraMishnayot, setExpandedBartenuraMishnayot] = useState<Record<number, boolean>>({});
   const [showFullTranslation, setShowFullTranslation] = useState<boolean>(false);
   const [selectedMishnahForTrans, setSelectedMishnahForTrans] = useState<number | undefined>(undefined);
   const [fontSize, setFontSize] = useState<number>(30);
@@ -154,6 +172,8 @@ export function App() {
       setLoading(true);
       setError(null);
       setSelectedWord(null);
+      setExpandedBartenuraMishnayot({});
+      setBartenuraError(null);
       try {
         const data = await SefariaService.fetchChapter(tractate.slug, chapter);
         setChapterData(data);
@@ -339,6 +359,61 @@ export function App() {
     setIsSearchModalOpen(true);
   };
 
+  const handleToggleBartenura = useCallback(() => {
+    setShowBartenura((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem('mishnah_show_bartenura', String(next));
+      } catch {}
+      return next;
+    });
+    setExpandedBartenuraMishnayot({});
+  }, []);
+
+  const handleChangeBartenuraLang = useCallback((lang: BartenuraLang) => {
+    setBartenuraLang(lang);
+    try {
+      localStorage.setItem('mishnah_bartenura_lang', lang);
+    } catch {}
+  }, []);
+
+  const handleToggleMishnahBartenura = useCallback(
+    (mishnahNum: number) => {
+      setExpandedBartenuraMishnayot((prev) => {
+        const current = prev[mishnahNum] !== undefined ? prev[mishnahNum] : showBartenura;
+        return { ...prev, [mishnahNum]: !current };
+      });
+    },
+    [showBartenura]
+  );
+
+  const bartenuraKey = `${currentTractate.slug}_${currentChapter}`;
+  const currentBartenura = bartenuraByChapter[bartenuraKey];
+  const anyMishnahBartenuraOpen = Object.values(expandedBartenuraMishnayot).some(Boolean);
+  const needsBartenura = showBartenura || anyMishnahBartenuraOpen;
+
+  const loadBartenuraForCurrentChapter = useCallback(async () => {
+    const key = `${currentTractate.slug}_${currentChapter}`;
+    const count =
+      currentTractate.mishnahCounts?.[currentChapter - 1] || chapterData.mishnayot.length || 30;
+    setBartenuraLoading(true);
+    setBartenuraError(null);
+    try {
+      const data = await SefariaService.fetchBartenura(currentTractate.slug, currentChapter, count);
+      setBartenuraByChapter((prev) => ({ ...prev, [key]: data }));
+    } catch (err) {
+      console.error('Failed to fetch Bartenura:', err);
+      setBartenuraError('Could not load Bartenura commentary from Sefaria.');
+    } finally {
+      setBartenuraLoading(false);
+    }
+  }, [currentTractate, currentChapter, chapterData.mishnayot.length]);
+
+  useEffect(() => {
+    if (!needsBartenura || currentBartenura) return;
+    loadBartenuraForCurrentChapter();
+  }, [needsBartenura, currentBartenura, loadBartenuraForCurrentChapter]);
+
   const handleOpenBookmarks = () => {
     setSearchInitialQuery('');
     setSearchInitialMode('bookmarks');
@@ -364,6 +439,10 @@ export function App() {
         onOpenBookmarks={handleOpenBookmarks}
         showInterlinear={showInterlinear}
         onToggleInterlinear={() => setShowInterlinear(!showInterlinear)}
+        showBartenura={showBartenura}
+        onToggleBartenura={handleToggleBartenura}
+        bartenuraLang={bartenuraLang}
+        onChangeBartenuraLang={handleChangeBartenuraLang}
         showFullTranslation={showFullTranslation}
         onToggleFullTranslation={() => setShowFullTranslation(!showFullTranslation)}
         fontSize={fontSize}
@@ -423,6 +502,15 @@ export function App() {
               selectedWord={selectedWord}
               onSelectWord={setSelectedWord}
               showInterlinear={showInterlinear}
+              showBartenura={showBartenura}
+              bartenuraData={currentBartenura}
+              bartenuraLoading={bartenuraLoading}
+              bartenuraError={bartenuraError}
+              bartenuraLang={bartenuraLang}
+              onChangeBartenuraLang={handleChangeBartenuraLang}
+              expandedBartenuraMishnayot={expandedBartenuraMishnayot}
+              onToggleMishnahBartenura={handleToggleMishnahBartenura}
+              onRetryBartenura={loadBartenuraForCurrentChapter}
               fontSize={fontSize}
               hebrewFont={hebrewFont}
               onOpenFullTranslationForMishnah={handleOpenFullTranslationForMishnah}

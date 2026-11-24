@@ -29,6 +29,11 @@
   border-color: #e6dcce !important;
 }
 
+.sepia-mode .bartenura-panel {
+  background-color: #f3eadb !important;
+  border-color: #e0d3be !important;
+}
+
 /* Minimalist, functional animations */
 @keyframes fadeIn {
   from { opacity: 0; }
