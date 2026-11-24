@@ -162,6 +162,7 @@ export const WordInspector: React.FC<WordInspectorProps> = ({
             <div className="flex items-baseline gap-2.5">
               <span
                 dir="rtl"
+                lang="he"
                 className="font-serifHe text-3xl font-bold tracking-normal text-stone-900 dark:text-stone-100"
               >
                 {activeWord.cleanWord}
@@ -211,7 +212,7 @@ export const WordInspector: React.FC<WordInspectorProps> = ({
                 Root (Shoresh)
               </span>
               <div className="flex items-baseline gap-2">
-                <span dir="rtl" className="font-serifHe font-bold text-lg text-stone-900 dark:text-stone-100">
+                <span dir="rtl" lang="he" className="font-serifHe font-bold text-lg text-stone-900 dark:text-stone-100">
                   {activeWord.shoresh}
                 </span>
                 {grammar?.shoreshMeaning && (

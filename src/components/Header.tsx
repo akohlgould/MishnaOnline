@@ -73,7 +73,7 @@ export const Header: React.FC<HeaderProps> = ({
             className="flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-stone-200 dark:border-stone-700 hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-800 dark:text-stone-200 transition-colors text-sm font-medium"
             title="Select Tractate"
           >
-            <span className="font-serifHe font-bold text-base">
+            <span className="font-serifHe font-bold text-base" lang="he" dir="rtl">
               {currentTractate.heShortTitle || currentTractate.heTitle}
             </span>
             <span className="text-stone-400 text-xs hidden md:inline">

@@ -37,7 +37,7 @@ export const ChapterBar: React.FC<ChapterBarProps> = ({
       )}
 
       {/* Mishnah Quick Jump Numbers */}
-      <div className="flex items-center gap-1.5 flex-wrap justify-center font-serifHe text-sm">
+      <div className="flex items-center gap-1.5 flex-wrap justify-center font-serifHe text-sm" lang="he" dir="rtl">
         {mishnayot.map((m) => (
           <button
             key={m.number}

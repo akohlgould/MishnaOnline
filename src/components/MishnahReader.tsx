@@ -143,7 +143,7 @@ export const MishnahReader: React.FC<MishnahReaderProps> = ({
             {/* Mishnah Header & Action Toolbar */}
             <div className="flex items-center justify-between pb-3 mb-6 border-b border-stone-100 dark:border-stone-800/60">
               <div className="flex items-center gap-2">
-                <span className="font-serifHe font-bold text-lg text-stone-900 dark:text-stone-100">
+                <span className="font-serifHe font-bold text-lg text-stone-900 dark:text-stone-100" lang="he" dir="rtl">
                   {mishnah.heRef}
                 </span>
                 <span className="text-xs text-stone-400 font-serif">
@@ -218,7 +218,7 @@ export const MishnahReader: React.FC<MishnahReaderProps> = ({
                         className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-300 flex items-center justify-between"
                       >
                         <span>Copy Hebrew text</span>
-                        <span className="text-[10px] text-stone-400">עברית</span>
+                        <span className="text-[10px] text-stone-400" lang="he" dir="rtl">עברית</span>
                       </button>
 
                       {mishnah.englishFull && (
@@ -277,6 +277,7 @@ export const MishnahReader: React.FC<MishnahReaderProps> = ({
             {/* Hebrew Text Flow */}
             <div
               dir="rtl"
+              lang="he"
               className={`flex flex-wrap items-end gap-x-2 gap-y-3 leading-[2.4] select-text ${fontClass}`}
               style={{ fontSize: `${fontSize}px` }}
             >
@@ -307,6 +308,7 @@ export const MishnahReader: React.FC<MishnahReaderProps> = ({
                     {showInterlinear && (
                       <span
                         dir="ltr"
+                        lang="en"
                         className="text-[11px] font-sans font-normal text-stone-500 dark:text-stone-400 leading-none mt-1 select-none text-center max-w-[100px] truncate"
                         title={
                           word.translation?.startsWith('[')

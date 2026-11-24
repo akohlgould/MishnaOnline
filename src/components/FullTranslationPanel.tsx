@@ -55,7 +55,7 @@ export const FullTranslationPanel: React.FC<FullTranslationPanelProps> = ({
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="font-serif font-bold text-xs text-stone-900 dark:text-stone-200">
-                  {m.enRef} · {m.heRef}
+                  {m.enRef} · <span lang="he" dir="rtl" className="font-serifHe">{m.heRef}</span>
                 </span>
                 <span className="text-[11px] text-stone-400 font-mono">
                   {m.words.length} words

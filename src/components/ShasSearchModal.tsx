@@ -302,11 +302,11 @@ export const ShasSearchModal: React.FC<ShasSearchModalProps> = ({
                         <span className="font-semibold text-xs text-amber-700 dark:text-amber-400">
                           {b.title} {b.chapter}:{b.mishnah}
                         </span>
-                        <span dir="rtl" className="font-serifHe text-xs text-stone-500">
+                        <span dir="rtl" lang="he" className="font-serifHe text-xs text-stone-500">
                           {b.heTitle} פרק {toHebrewNumeral(b.chapter)} משנה {toHebrewNumeral(b.mishnah)}
                         </span>
                       </div>
-                      <p dir="rtl" className="font-serifHe text-sm text-stone-800 dark:text-stone-200 line-clamp-1">
+                      <p dir="rtl" lang="he" className="font-serifHe text-sm text-stone-800 dark:text-stone-200 line-clamp-1">
                         {b.hebrewSnippet}
                       </p>
                     </div>
@@ -350,13 +350,13 @@ export const ShasSearchModal: React.FC<ShasSearchModalProps> = ({
                         <span className="px-1.5 py-0.5 rounded text-[11px] font-bold bg-amber-100 dark:bg-amber-900/60 text-amber-800 dark:text-amber-300">
                           {item.ref}
                         </span>
-                        <span dir="rtl" className="font-serifHe text-xs text-stone-500">
+                        <span dir="rtl" lang="he" className="font-serifHe text-xs text-stone-500">
                           {item.heRef}
                         </span>
                       </div>
 
                       {/* Hebrew snippet */}
-                      <p dir="rtl" className="font-serifHe text-base text-stone-900 dark:text-stone-100 line-clamp-1 mb-1">
+                      <p dir="rtl" lang="he" className="font-serifHe text-base text-stone-900 dark:text-stone-100 line-clamp-1 mb-1">
                         {item.he}...
                       </p>
 

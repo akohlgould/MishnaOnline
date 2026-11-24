@@ -2,19 +2,63 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='30 57 140 102'%3E%3Cg fill='none' stroke='%231B2442' stroke-width='10' stroke-linecap='round' stroke-linejoin='round' transform='translate(0 -3)'%3E%3Cpath d='M54 140 V68 L100 116 L146 68 V140'/%3E%3Cpath d='M42 152 C68 144 88 146 100 154 C112 146 132 144 158 152'/%3E%3C/g%3E%3C/svg%3E" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mishnah.Online</title>
-    <meta name="description" content="Read and study the Mishnah with word-by-word contextual translations, grammatical parsing, and Hebrew roots." />
+    <title>Mishnah.Online – Word-by-word Mishnah study with translation and roots</title>
+    <meta name="description" content="Read and study the Mishnah with word-by-word contextual translations, grammatical parsing, and Hebrew roots across all 63 tractates." />
     <link rel="canonical" href="https://mishnah.online" />
-    <meta property="og:title" content="Mishnah.Online" />
-    <meta property="og:description" content="Read and study the Mishnah with word-by-word contextual translations, grammatical parsing, and Hebrew roots." />
-    <meta property="og:url" content="https://mishnah.online" />
+
+    <!-- Theme & Icons -->
+    <meta name="theme-color" content="#FAF7F2" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1B2442" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Open Graph / Facebook / WhatsApp / iMessage -->
     <meta property="og:site_name" content="Mishnah.Online" />
     <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Mishnah.Online" />
-    <meta name="twitter:description" content="Read and study the Mishnah with word-by-word contextual translations, grammatical parsing, and Hebrew roots." />
+    <meta property="og:url" content="https://mishnah.online" />
+    <meta property="og:title" content="Mishnah.Online – Word-by-word Mishnah study with translation and roots" />
+    <meta property="og:description" content="Read and study the Mishnah with word-by-word contextual translations, grammatical parsing, and Hebrew roots across all 63 tractates." />
+    <meta property="og:image" content="https://mishnah.online/og-image.png" />
+    <meta property="og:image:secure_url" content="https://mishnah.online/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Mishnah.Online – Word-by-word Mishnah study with translation and roots" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://mishnah.online" />
+    <meta name="twitter:title" content="Mishnah.Online – Word-by-word Mishnah study with translation and roots" />
+    <meta name="twitter:description" content="Read and study the Mishnah with word-by-word contextual translations, grammatical parsing, and Hebrew roots across all 63 tractates." />
+    <meta name="twitter:image" content="https://mishnah.online/og-image.png" />
+    <meta name="twitter:image:alt" content="Mishnah.Online – Word-by-word Mishnah study with translation and roots" />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Mishnah.Online",
+      "alternateName": ["Mishnah Online", "משנה אונליין"],
+      "url": "https://mishnah.online",
+      "description": "Read and study the Mishnah with word-by-word contextual translations, grammatical parsing, and Hebrew roots across all 63 tractates.",
+      "inLanguage": ["en", "he"],
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://mishnah.online/?search={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- Google Fonts Preconnect & Async Preload -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600&family=David+Libre:wght@400;700&family=Frank+Ruhl+Libre:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap">
@@ -28,4 +72,3 @@
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-

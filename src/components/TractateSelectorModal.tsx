@@ -60,7 +60,7 @@ export const TractateSelectorModal: React.FC<TractateSelectorModalProps> = ({
         <div className="p-4 sm:p-5 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between">
           <div>
             <h2 className="text-base font-bold text-stone-900 dark:text-stone-100 font-serif">
-              Tractates of the Mishnah · ששת סדרי משנה
+              Tractates of the Mishnah · <span lang="he" dir="rtl">ששת סדרי משנה</span>
             </h2>
             <p className="text-xs text-stone-400">
               Select an order and tractate
@@ -163,7 +163,7 @@ export const TractateSelectorModal: React.FC<TractateSelectorModalProps> = ({
                             : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-amber-400 hover:bg-amber-50/40 dark:hover:bg-slate-750 text-slate-800 dark:text-slate-200'
                         }`}
                       >
-                        <div className="font-serifHe text-lg font-bold">
+                        <div className="font-serifHe text-lg font-bold" lang="he" dir="rtl">
                           פרק {toHebrewNumeral(ch)}
                         </div>
                         <div className="text-[11px] opacity-75 mt-0.5">
@@ -205,7 +205,7 @@ export const TractateSelectorModal: React.FC<TractateSelectorModalProps> = ({
                           <span className="text-[10px] font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-wider block mb-0.5">
                             {sederName}
                           </span>
-                          <h4 className="font-serifHe font-bold text-lg text-slate-900 dark:text-slate-100 leading-tight">
+                          <h4 className="font-serifHe font-bold text-lg text-slate-900 dark:text-slate-100 leading-tight" lang="he" dir="rtl">
                             {tractate.heShortTitle || tractate.heTitle}
                           </h4>
                           <span className="text-xs text-slate-600 dark:text-slate-400 font-medium">

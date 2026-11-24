@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build && python3 scripts/prerender_and_sitemap.py",
+    "generate:assets": "python3 scripts/generate_social_assets.py",
     "preview": "vite preview"
   },
   "dependencies": {

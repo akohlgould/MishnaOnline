@@ -64,7 +64,7 @@ function syncUrl(
 ) {
   const slug = tractateToSlug(tractate);
   const targetPath = `/${slug}/${chapter}${mishnah ? `/${mishnah}` : ''}`;
-  const title = `${tractate.shortTitle} ${chapter}${mishnah ? `:${mishnah}` : ''} · Mishnah.Online`;
+  const title = `${tractate.shortTitle} ${chapter}${mishnah ? `:${mishnah}` : ''} · Mishnah.Online – Word-by-word Mishnah study with translation and roots`;
 
   document.title = title;
 
@@ -383,6 +383,7 @@ export function App() {
           </p>
           <h1
             dir="rtl"
+            lang="he"
             className="font-serifHe text-3xl sm:text-4xl text-stone-900 dark:text-stone-100 font-bold tracking-tight"
           >
             {currentTractate.heTitle} · פרק {toHebrewNumeral(currentChapter)}
