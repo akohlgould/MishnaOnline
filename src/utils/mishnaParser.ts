@@ -813,12 +813,17 @@ export function parseMishnah(
     .filter(t => cleanHebrewLetters(t).length > 0)
     .map((token, idx) => parseWordToken(token, `w_${chapterNum}_${mishnahNum}_${idx + 1}`));
 
+  // Strip Sefaria's introductory tractate commentary/prologues (e.g. "The beginning of tractate...")
+  const cleanedEnglish = (englishText || '')
+    .replace(/^The beginning of tractate\s+[^:]+:\s*(?:<br\s*\/?>\s*)*/i, '')
+    .trim();
+
   return {
     number: mishnahNum,
     heRef: `משנה ${toHebrewNumeral(mishnahNum)}`,
     enRef: `Mishnah ${mishnahNum}`,
     hebrewFull: hebrewText.trim(),
-    englishFull: englishText.trim(),
+    englishFull: cleanedEnglish,
     words
   };
 }
